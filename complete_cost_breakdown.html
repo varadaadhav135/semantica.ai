@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Cost Breakdown | Semantica.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
+            color: #F0F4F8;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #10b981, transparent);
+            top: -200px;
+            left: -200px;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            color: #94A3B8;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: #F0F4F8;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: headerFade 1s ease;
+        }
+
+        @keyframes headerFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #10b981 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #94A3B8;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .total-badge {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 35px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cardFadeIn 0.6s ease backwards;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #10b981;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .cost-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.05));
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .cost-card h4 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .cost-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .cost-period {
+            color: #94A3B8;
+            font-size: 0.85rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .total-row {
+            font-weight: 700;
+            color: #fff;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .alert-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .alert-box h4 {
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 30px 0 15px 0;
+            border-left: 4px solid #6366f1;
+        }
+
+        .category-header h3 {
+            color: #6366f1;
+            margin: 0;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            color: #10b981;
+            font-size: 0.9em;
+        }
+
+        .comparison-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #10b981;
+            border-bottom-color: #10b981;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .cost-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="nav-back">← Back to Documentation Hub</a>
+
+        <div class="hero">
+            <h1>💰 Complete Cost Breakdown</h1>
+            <p class="subtitle">Itemized costs for MVP and Production stages with cost-optimized infrastructure stack
+            </p>
+            <div class="total-badge">Total Year 1: ₹16-22 Lakhs</div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="cost-grid">
+            <div class="cost-card">
+                <h4>MVP Launch Cost</h4>
+                <div class="cost-amount">₹13,000</div>
+                <div class="cost-period">Per month (Months 1-3)</div>
+                <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 10px;">
+                    Minimal viable infrastructure to validate product-market fit
+                </p>
+            </div>
+
+            <div class="cost-card">
+                <h4>Growth Stage</h4>
+                <div class="cost-amount">₹50,000</div>
+                <div class="cost-period">Per month (Months 4-8)</div>
+                <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 10px;">
+                    Scaled infrastructure for 100+ users, multi-AZ deployment
+                </p>
+            </div>
+
+            <div class="cost-card">
+                <h4>Production Ready</h4>
+                <div class="cost-amount">₹75,000</div>
+                <div class="cost-period">Per month (Month 9+)</div>
+                <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 10px;">
+                    Enterprise-grade HA cluster, SOC 2 compliance, 1000+ users
+                </p>
+            </div>
+
+            <div class="cost-card">
+                <h4>One-Time Costs</h4>
+                <div class="cost-amount">₹70,000</div>
+                <div class="cost-period">Pre-launch</div>
+                <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 10px;">
+                    Legal compliance (DPDP), entity registration, domain setup
+                </p>
+            </div>
+        </div>
+
+        <!-- Per-Query Cost Analysis -->
+        <div class="card">
+            <h2>💵 Per-Query Cost Analysis</h2>
+            <p style="color: #CBD5E1; margin-bottom: 25px;">
+                Understanding unit economics: How much does processing a single query cost us at each stage?
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Queries/Month</th>
+                        <th>AI/LLM Cost</th>
+                        <th>Infrastructure Cost</th>
+                        <th>Total Cost</th>
+                        <th>Cost Per Query</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MVP</strong></td>
+                        <td>5,000</td>
+                        <td>₹10,650/mo</td>
+                        <td>₹5,500/mo</td>
+                        <td>₹16,150/mo</td>
+                        <td><strong>₹3.23</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Early Growth</strong></td>
+                        <td>10,000</td>
+                        <td>₹19,500/mo</td>
+                        <td>₹12,700/mo</td>
+                        <td>₹32,200/mo</td>
+                        <td><strong>₹3.22</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Growth</strong></td>
+                        <td>35,000</td>
+                        <td>₹68,250/mo</td>
+                        <td>₹31,750/mo</td>
+                        <td>₹1,00,000/mo</td>
+                        <td><strong>₹2.86</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production</strong></td>
+                        <td>100,000</td>
+                        <td>₹1,99,250/mo</td>
+                        <td>₹1,49,010/mo</td>
+                        <td>₹3,48,260/mo</td>
+                        <td><strong>₹3.48</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 35px;">Per-Query Cost Breakdown (Production)</h3>
+            <div class="cost-grid" style="margin-top: 20px;">
+                <div class="cost-card">
+                    <h4>AI/LLM Cost per Query</h4>
+                    <div class="cost-amount">₹1.99</div>
+                    <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 10px;">
+                        • GPT-4o-mini: ₹0.50/query (70%)<br>
+                        • GPT-4o: ₹4.80/query (25%)<br>
+                        • Claude 3.5: ₹7/query (5%)<br>
+                        • Weighted average
+                    </p>
+                </div>
+
+                <div class="cost-card">
+                    <h4>Infrastructure Cost per Query</h4>
+                    <div class="cost-amount">₹1.49</div>
+                    <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 10px;">
+                        • AWS compute & storage<br>
+                        • Database operations<br>
+                        • Data transfer<br>
+                        • Security & monitoring
+                    </p>
+                </div>
+
+                <div class="cost-card">
+                    <h4>Fixed Overhead per Query</h4>
+                    <div class="cost-amount">₹0.65</div>
+                    <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 10px;">
+                        • SOC 2 audit (amortized)<br>
+                        • CISO consultant<br>
+                        • Pen testing<br>
+                        • DevOps tools
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert-box" style="margin-top: 30px;">
+                <h4>💡 Key Insights on Unit Economics</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>1. Remarkably Consistent Costs:</strong> Per-query cost stays in ₹2.86-₹3.48 range across
+                    all stages despite 20x scale difference (5K → 100K queries)<br><br>
+
+                    <strong>2. AI is 57% of Total Cost:</strong> LLM APIs (₹1.99/query) are the largest cost driver.
+                    This scales linearly with usage.<br><br>
+
+                    <strong>3. Infrastructure Economies of Scale:</strong> Infrastructure cost per query drops from
+                    ₹1.10 (MVP) to ₹0.63 (Production) due to better resource utilization.<br><br>
+
+                    <strong>4. Pricing Strategy Implications:</strong><br>
+                    • At ₹3.48 cost per query, we need to price at minimum ₹10-15/query to cover support, sales, and
+                    profit margins<br>
+                    • Alternatively, bundle into plans: ₹500/user/month × 100 queries/user = ₹5/query revenue with 44%
+                    gross margin<br><br>
+
+                    <strong>5. Optimization Opportunities:</strong><br>
+                    • Increasing GPT-4o-mini usage from 70% → 85% would save ₹0.60/query<br>
+                    • Caching frequent queries (10% hit rate) would save ₹0.20/query<br>
+                    • Result: Target cost of ₹2.68/query with optimizations = 55% gross margin at ₹6/query pricing
+                </p>
+            </div>
+        </div>
+
+        <!-- Pricing Recommendations -->
+        <div class="card">
+            <h2>💰 Recommended Pricing: What We Should Charge</h2>
+            <p style="color: #CBD5E1; margin-bottom: 25px;">
+                Based on our ₹3.48/query cost structure, here are recommended pricing models to ensure profitability
+                while remaining competitive.
+            </p>
+
+            <h3>Pricing Model Comparison</h3>
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Pricing Model</th>
+                        <th>Price per Query</th>
+                        <th>Monthly Plan</th>
+                        <th>Gross Margin</th>
+                        <th>Target Customer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pay-Per-Query</strong></td>
+                        <td>₹15/query</td>
+                        <td>No commitment</td>
+                        <td>77% (₹11.52 profit)</td>
+                        <td>Trials, sporadic users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Starter Plan</strong></td>
+                        <td>₹10/query</td>
+                        <td>₹999/mo (100 queries)</td>
+                        <td>65% (₹6.52 profit)</td>
+                        <td>Small teams, 1-5 users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Professional Plan</strong></td>
+                        <td>₹7/query</td>
+                        <td>₹3,499/mo (500 queries)</td>
+                        <td>50% (₹3.52 profit)</td>
+                        <td>Growing companies, 10-25 users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Business Plan</strong></td>
+                        <td>₹5/query</td>
+                        <td>₹9,999/mo (2,000 queries)</td>
+                        <td>30% (₹1.52 profit)</td>
+                        <td>Mid-market, 50-100 users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise</strong></td>
+                        <td>₹4/query</td>
+                        <td>Custom (10K+ queries)</td>
+                        <td>13% (₹0.52 profit) + volume</td>
+                        <td>Large orgs, 500+ users</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 40px;">Recommended Tiered Pricing Structure</h3>
+            <div class="cost-grid" style="margin-top: 20px;">
+                <div class="cost-card">
+                    <h4>🚀 Starter</h4>
+                    <div class="cost-amount">₹999</div>
+                    <div class="cost-period">per month</div>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 15px; line-height: 1.7;">
+                        • 100 queries included<br>
+                        • ₹10/query overage<br>
+                        • 2 users<br>
+                        • Email support<br>
+                        • Community access<br><br>
+                        <strong style="color: #10b981;">Best for: Startups, MVPs</strong>
+                    </p>
+                </div>
+
+                <div class="cost-card" style="border: 2px solid #10b981;">
+                    <h4>⭐ Professional</h4>
+                    <div class="cost-amount">₹3,499</div>
+                    <div class="cost-period">per month</div>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 15px; line-height: 1.7;">
+                        • 500 queries included<br>
+                        • ₹7/query overage<br>
+                        • 10 users<br>
+                        • Priority support<br>
+                        • Advanced analytics<br><br>
+                        <strong style="color: #10b981;">MOST POPULAR ⭐</strong>
+                    </p>
+                </div>
+
+                <div class="cost-card">
+                    <h4>💼 Business</h4>
+                    <div class="cost-amount">₹9,999</div>
+                    <div class="cost-period">per month</div>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 15px; line-height: 1.7;">
+                        • 2,000 queries included<br>
+                        • ₹5/query overage<br>
+                        • Unlimited users<br>
+                        • SLA guarantee (99.9%)<br>
+                        • Dedicated support<br><br>
+                        <strong style="color: #10b981;">Best for: Growing teams</strong>
+                    </p>
+                </div>
+
+                <div class="cost-card">
+                    <h4>🏢 Enterprise</h4>
+                    <div class="cost-amount">Custom</div>
+                    <div class="cost-period">contact sales</div>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-top: 15px; line-height: 1.7;">
+                        • Custom volume pricing<br>
+                        • ₹4/query @ 10K+ queries<br>
+                        • On-premise deployment<br>
+                        • White-label option<br>
+                        • Custom integrations<br><br>
+                        <strong style="color: #10b981;">Best for: Large enterprises</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert-box" style="margin-top: 30px;">
+                <h4>📊 Pricing Strategy Rationale</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>Why These Price Points?</strong><br><br>
+
+                    <strong>1. Value-Based Pricing Over Cost-Plus:</strong><br>
+                    • Customer saves 5-10 hours/week of manual SQL writing and data analysis<br>
+                    • At ₹500/hour analyst cost, that's ₹2,500-5,000/week value = ₹10,000-20,000/month<br>
+                    • Our ₹999-9,999 pricing captures 10-50% of value created<br><br>
+
+                    <strong>2. Competitive Positioning:</strong><br>
+                    • Tableau/PowerBI: ₹15-50/user/month (static dashboards, no NL query)<br>
+                    • ThoughtSpot: $95-150/user/month (~₹8,000-12,500) (similar NL-to-SQL)<br>
+                    • Our pricing: 50-70% cheaper than ThoughtSpot, 10x more powerful than BI tools<br><br>
+
+                    <strong>3. Revenue Projections (Professional Plan):</strong><br>
+                    • 100 customers × ₹3,499/mo = ₹3.5L/month revenue<br>
+                    • Cost: 100 customers × 500 queries × ₹3.48 = ₹1.74L/month<br>
+                    • Gross profit: ₹1.76L/month (50% margin)<br>
+                    • After sales/marketing (30%): ₹70K net profit = 20% net margin<br><br>
+
+                    <strong>4. Freemium Strategy (Optional):</strong><br>
+                    • Free tier: 10 queries/month (₹35 cost, attract 10K users)<br>
+                    • Conversion: 2% to Starter plan = 200 paid users × ₹999 = ₹2L revenue<br>
+                    • Cost: 200 × 100 × ₹3.48 = ₹69,600<br>
+                    • Margin: 65% even with free tier
+                </p>
+            </div>
+
+            <div class="alert-box"
+                style="background: rgba(99, 102, 241, 0.1); border-left-color: #6366f1; margin-top: 25px;">
+                <h4 style="color: #6366f1;">🎯 Final Recommendation</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>Launch with 3-tier model:</strong><br>
+                    • Starter (₹999/mo, 100 queries) - Acquisition<br>
+                    • Professional (₹3,499/mo, 500 queries) - Primary revenue driver<br>
+                    • Enterprise (Custom) - High-value accounts<br><br>
+
+                    <strong>Target 80% of customers on Professional plan</strong> for optimal unit economics (50% gross
+                    margin, 20% net margin after S&M).<br><br>
+
+                    <strong>Add-ons for upsell:</strong><br>
+                    • Advanced analytics: +₹999/mo<br>
+                    • White-label: +₹4,999/mo<br>
+                    • Dedicated support: +₹2,499/mo<br>
+                    • On-premise deployment: +₹9,999/mo setup + ₹2,999/mo maintenance
+                </p>
+            </div>
+        </div>
+
+        <!-- Detailed MVP Breakdown -->>
+        <div class="card">
+            <h2>📊 MVP Stage (Months 1-3): Detailed Breakdown</h2>
+            <p style="color: #CBD5E1; margin-bottom: 25px;">
+                Optimized for 5-10 pilot users, 5,000 queries/month, validating core NL-to-SQL functionality.
+            </p>
+
+            <div class="category-header">
+                <h3>☁️ AWS Infrastructure</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Specification</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ECS Fargate</strong></td>
+                        <td>2 tasks × 0.25 vCPU, 0.5GB RAM</td>
+                        <td>Backend API (FastAPI)</td>
+                        <td>₹800</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RDS PostgreSQL</strong></td>
+                        <td>db.t3.micro (1 vCPU, 1GB), 20GB GP3</td>
+                        <td>App metadata (users, queries, logs)</td>
+                        <td>₹1,200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ElastiCache Redis</strong></td>
+                        <td>cache.t3.micro (0.5GB)</td>
+                        <td>Session cache, schema cache</td>
+                        <td>₹900</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S3 Storage</strong></td>
+                        <td>5GB Standard + 1M requests</td>
+                        <td>Export files (CSV/PDF), 7-day lifecycle</td>
+                        <td>₹150</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CloudWatch Logs</strong></td>
+                        <td>5GB ingestion, 30-day retention</td>
+                        <td>Application logs, error tracking</td>
+                        <td>₹300</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Secrets Manager</strong></td>
+                        <td>10 secrets</td>
+                        <td>DB credentials, API keys</td>
+                        <td>₹350</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Route 53</strong></td>
+                        <td>1 hosted zone</td>
+                        <td>DNS management (semantica.ai)</td>
+                        <td>₹50</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Certificate Manager</strong></td>
+                        <td>SSL/TLS certificate</td>
+                        <td>HTTPS encryption</td>
+                        <td>₹0 (Free)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Application Load Balancer</strong></td>
+                        <td>1 ALB, 1GB processed</td>
+                        <td>Traffic distribution, health checks</td>
+                        <td>₹1,500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Transfer</strong></td>
+                        <td>~10GB outbound</td>
+                        <td>API responses, file downloads</td>
+                        <td>₹250</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>AWS Infrastructure Subtotal</strong></td>
+                        <td><strong>₹5,500/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="category-header">
+                <h3>🤖 AI & LLM Services</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Usage</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OpenAI GPT-4o-mini</strong></td>
+                        <td>3,500 queries × 500 tokens avg</td>
+                        <td>Simple SQL generation (70% of traffic)</td>
+                        <td>₹1,800</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenAI GPT-4o</strong></td>
+                        <td>1,250 queries × 1000 tokens avg</td>
+                        <td>Complex multi-table queries (25%)</td>
+                        <td>₹6,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Claude 3.5 Sonnet</strong></td>
+                        <td>250 queries × 1000 tokens (fallback)</td>
+                        <td>SQL validation failures (5%)</td>
+                        <td>₹1,750</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenAI Embeddings</strong></td>
+                        <td>500K tokens/month</td>
+                        <td>Schema semantic search (text-embedding-3-small)</td>
+                        <td>₹250</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LanceDB Cloud</strong></td>
+                        <td>Starter plan (50K embeddings)</td>
+                        <td>Vector database for schema search</td>
+                        <td>$10 = ₹850</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LangSmith</strong></td>
+                        <td>Hobby plan (5K traces/month)</td>
+                        <td>Agent monitoring & debugging</td>
+                        <td>₹0 (Free tier)</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>AI Services Subtotal</strong></td>
+                        <td><strong>₹10,650/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="category-header">
+                <h3>🔧 Development & Tools</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Plan</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GitHub</strong></td>
+                        <td>Free (public repo)</td>
+                        <td>Version control, CI/CD (Actions free tier)</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vercel</strong></td>
+                        <td>Free</td>
+                        <td>Frontend hosting (Next.js)</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sentry</strong></td>
+                        <td>Developer plan (5K errors/mo)</td>
+                        <td>Error tracking & performance monitoring</td>
+                        <td>$0 (Free)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Postman</strong></td>
+                        <td>Free</td>
+                        <td>API testing</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Dev Tools Subtotal</strong></td>
+                        <td><strong>₹0/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box">
+                <h4>💡 MVP Cost Optimization Strategies</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>1. Use Free Tiers:</strong> GitHub Actions (2,000 min/mo), Vercel (100GB bandwidth), Sentry
+                    Developer<br>
+                    <strong>2. Smallest Instances:</strong> t3.micro RDS + Fargate 0.25 vCPU tasks<br>
+                    <strong>3. Smart LLM Routing:</strong> 70% queries → GPT-4o-mini (17x cheaper than GPT-4o)<br>
+                    <strong>4. No Production Features:</strong> Skip Multi-AZ, backups, monitoring tools<br>
+                    <strong>5. 7-Day Data Retention:</strong> Auto-delete S3 exports, short CloudWatch retention<br><br>
+                    <strong>Result: ₹16,150/month = ~₹48,500 for 3-month MVP validation</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Production Breakdown -->
+        <div class="card">
+            <h2>🚀 Production Stage (Month 9+): Detailed Breakdown</h2>
+            <p style="color: #CBD5E1; margin-bottom: 25px;">
+                Enterprise-ready for 1,000+ users, 100,000 queries/month, 99.9% uptime SLA, SOC 2 compliant.
+            </p>
+
+            <div class="category-header">
+                <h3>☁️ AWS Infrastructure</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Specification</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ECS Fargate</strong></td>
+                        <td>10 tasks × 1 vCPU, 2GB RAM (Auto-scaling)</td>
+                        <td>Backend API cluster</td>
+                        <td>₹12,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RDS PostgreSQL</strong></td>
+                        <td>db.r5.large (2 vCPU, 16GB), 200GB GP3, Multi-AZ</td>
+                        <td>HA app metadata with automated backups</td>
+                        <td>₹18,500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ElastiCache Redis</strong></td>
+                        <td>cache.m5.large (6.38GB), cluster mode</td>
+                        <td>High-performance session + schema cache</td>
+                        <td>₹8,400</td>
+                    </tr>
+                    <tr>
+                        <td><strong>S3 Storage</strong></td>
+                        <td>100GB Standard + Intelligent-Tiering</td>
+                        <td>Exports + long-term archive (Glacier)</td>
+                        <td>₹1,600</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CloudWatch</strong></td>
+                        <td>50GB logs + 100 metrics + 10 alarms</td>
+                        <td>Comprehensive monitoring & alerting</td>
+                        <td>₹2,200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HashiCorp Vault</strong></td>
+                        <td>3× t3.small (HA cluster)</td>
+                        <td>Enterprise secret management</td>
+                        <td>₹4,200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WAF</strong></td>
+                        <td>1 Web ACL + rules</td>
+                        <td>DDoS protection, rate limiting</td>
+                        <td>₹1,800</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GuardDuty</strong></td>
+                        <td>Threat detection</td>
+                        <td>Security monitoring</td>
+                        <td>₹900</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Route 53</strong></td>
+                        <td>2 hosted zones + health checks</td>
+                        <td>Global DNS + failover</td>
+                        <td>₹200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Application Load Balancer</strong></td>
+                        <td>2 ALBs (multi-region) + 100GB processed</td>
+                        <td>Traffic distribution with SSL termination</td>
+                        <td>₹4,500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Transfer</strong></td>
+                        <td>~500GB outbound</td>
+                        <td>API responses, file downloads</td>
+                        <td>₹8,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backup & Snapshots</strong></td>
+                        <td>Daily RDS snapshots (7-day retention)</td>
+                        <td>Disaster recovery</td>
+                        <td>₹800</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>AWS Infrastructure Subtotal</strong></td>
+                        <td><strong>₹63,100/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="category-header">
+                <h3>🤖 AI & LLM Services</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Usage</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>OpenAI GPT-4o-mini</strong></td>
+                        <td>70,000 queries × 500 tokens avg</td>
+                        <td>Simple SQL generation</td>
+                        <td>₹35,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenAI GPT-4o</strong></td>
+                        <td>25,000 queries × 1000 tokens avg</td>
+                        <td>Complex queries</td>
+                        <td>₹1,20,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Claude 3.5 Sonnet</strong></td>
+                        <td>5,000 queries × 1000 tokens</td>
+                        <td>Fallback validation</td>
+                        <td>₹35,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenAI Embeddings</strong></td>
+                        <td>10M tokens/month</td>
+                        <td>Schema + query embeddings</td>
+                        <td>₹5,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LanceDB Cloud</strong></td>
+                        <td>Pro plan (1M embeddings)</td>
+                        <td>Vector DB with high availability</td>
+                        <td>$30 = ₹2,550</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LangSmith</strong></td>
+                        <td>Plus plan (50K traces/month)</td>
+                        <td>Production agent monitoring</td>
+                        <td>$20 = ₹1,700</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>AI Services Subtotal</strong></td>
+                        <td><strong>₹1,99,250/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="category-header">
+                <h3>🔒 Security & Compliance</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Details</th>
+                        <th>Frequency</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SOC 2 Type 2 Audit</strong></td>
+                        <td>6-month observation period</td>
+                        <td>Annual</td>
+                        <td>₹4,00,000/year = ₹33,333/mo (amortized)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CISO Consultant</strong></td>
+                        <td>Part-time (10 hrs/month)</td>
+                        <td>Monthly</td>
+                        <td>₹15,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Penetration Testing</strong></td>
+                        <td>Quarterly security audit</td>
+                        <td>Quarterly</td>
+                        <td>₹50,000/quarter = ₹16,667/mo (amortized)</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Security Subtotal</strong></td>
+                        <td><strong>₹65,000/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="category-header">
+                <h3>🛠️ Productivity & DevOps Tools</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Plan</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GitHub Team</strong></td>
+                        <td>5 users</td>
+                        <td>Private repos, advanced CI/CD</td>
+                        <td>$4/user × 5 = ₹1,700</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Datadog</strong></td>
+                        <td>Pro plan (5 hosts)</td>
+                        <td>APM, infrastructure monitoring</td>
+                        <td>$15/host × 5 = ₹6,375</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sentry</strong></td>
+                        <td>Team plan (100K errors/mo)</td>
+                        <td>Error tracking with full context</td>
+                        <td>$26 = ₹2,210</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PagerDuty</strong></td>
+                        <td>Professional (5 users)</td>
+                        <td>Incident management, on-call</td>
+                        <td>$21/user × 5 = ₹8,925</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Terraform Cloud</strong></td>
+                        <td>Team plan</td>
+                        <td>Infrastructure as code</td>
+                        <td>$20 = ₹1,700</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>DevOps Tools Subtotal</strong></td>
+                        <td><strong>₹20,910/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box">
+                <h4>📊 Production Monthly Total: ₹3,48,260 (~₹3.5L/mo)</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>Breakdown:</strong><br>
+                    • AWS Infrastructure: ₹63,100 (18%)<br>
+                    • AI/LLM Services: ₹1,99,250 (57%) - Largest cost driver<br>
+                    • Security & Compliance: ₹65,000 (19%)<br>
+                    • DevOps Tools: ₹20,910 (6%)<br><br>
+
+                    <strong>Annual: ₹41.8 Lakhs</strong> (including one-time SOC 2 audit upfront cost)
+                </p>
+            </div>
+        </div>
+
+        <!-- One-Time Costs -->
+        <div class="card">
+            <h2>💳 One-Time Pre-Launch Costs</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Details</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4"><strong>Legal & Compliance</strong></td>
+                        <td>DPDP Act Documentation</td>
+                        <td>Privacy Notice, Consent Manager, DPA</td>
+                        <td>₹50,000</td>
+                    </tr>
+                    <tr>
+                        <td>Company Registration</td>
+                        <td>Pvt Ltd incorporation, PAN, TAN, GST</td>
+                        <td>₹15,000</td>
+                    </tr>
+                    <tr>
+                        <td>Terms of Service</td>
+                        <td>Legal review of ToS, Privacy Policy</td>
+                        <td>₹8,000</td>
+                    </tr>
+                    <tr>
+                        <td>MSME Registration</td>
+                        <td>Udyam certificate (optional but recommended)</td>
+                        <td>₹0 (Free)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Domain & Branding</strong></td>
+                        <td>Domain Purchase</td>
+                        <td>semantica.ai (1 year)</td>
+                        <td>₹1,200</td>
+                    </tr>
+                    <tr>
+                        <td>Logo & Brand Design</td>
+                        <td>Professional logo, brand guidelines</td>
+                        <td>₹10,000</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Development Setup</strong></td>
+                        <td>GitHub Organization</td>
+                        <td>First month free, then ongoing</td>
+                        <td>₹0</td>
+                    </tr>
+                    <tr>
+                        <td>Initial Data Seeding</td>
+                        <td>Sample databases, test queries</td>
+                        <td>₹5,000 (dev time)</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>TOTAL ONE-TIME COSTS</strong></td>
+                        <td><strong>₹89,200</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cost Scaling Path -->
+        <div class="card">
+            <h2>📈 Complete Cost Scaling Path (Year 1)</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Months</th>
+                        <th>Users</th>
+                        <th>Queries/Mo</th>
+                        <th>Monthly Cost</th>
+                        <th>Stage Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pre-Launch</strong></td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>One-time: ₹89,200</td>
+                        <td>₹89,200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MVP</strong></td>
+                        <td>1-3</td>
+                        <td>5-10</td>
+                        <td>5,000</td>
+                        <td>₹16,150</td>
+                        <td>₹48,450</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pilot Expansion</strong></td>
+                        <td>4-5</td>
+                        <td>25-50</td>
+                        <td>15,000</td>
+                        <td>₹32,000</td>
+                        <td>₹64,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Early Growth</strong></td>
+                        <td>6-8</td>
+                        <td>100-200</td>
+                        <td>35,000</td>
+                        <td>₹75,000</td>
+                        <td>₹2,25,000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production Ready</strong></td>
+                        <td>9-12</td>
+                        <td>500-1000</td>
+                        <td>100,000</td>
+                        <td>₹3,48,260</td>
+                        <td>₹13,93,040</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="5"><strong>YEAR 1 TOTAL</strong></td>
+                        <td><strong>₹18,19,690 (~₹18.2L)</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box">
+                <h4>💡 Key Cost Optimization Insights</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>1. LLM Costs Scale with Revenue:</strong> 57% of production costs are AI APIs, which
+                    directly correlate with usage (and thus revenue)<br>
+                    <strong>2. Infrastructure Costs are Fixed-ish:</strong> Only 18% of costs scale with users (mostly
+                    data transfer)<br>
+                    <strong>3. Defer Heavy Costs:</strong> SOC 2 Type 2 (₹4L) deferred until Month 9 when you have
+                    revenue<br>
+                    <strong>4. Leverage Free Tiers:</strong> Save ₹15,000/mo in early stages using GitHub/Vercel/Sentry
+                    free plans<br>
+                    <strong>5. Smart LLM Routing:</strong> 70/25/5 split (mini/4o/claude) saves ₹1.5L/mo vs using only
+                    GPT-4o<br><br>
+
+                    <strong>Break-Even Analysis:</strong><br>
+                    At ₹500/user/month pricing:<br>
+                    • Month 3 (MVP): 10 users × ₹500 = ₹5,000 revenue | Cost: ₹16,150 | <span
+                        style="color: #ef4444;">Loss: ₹11,150</span><br>
+                    • Month 8 (Growth): 200 users × ₹500 = ₹1,00,000 revenue | Cost: ₹75,000 | <span
+                        style="color: #10b981;">Profit: ₹25,000</span><br>
+                    • Month 12 (Scale): 1,000 users × ₹500 = ₹5,00,000 revenue | Cost: ₹3,48,260 | <span
+                        style="color: #10b981;">Profit: ₹1,51,740</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
