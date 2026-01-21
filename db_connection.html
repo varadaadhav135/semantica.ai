@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Connection Architecture - Semantica.ai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Journey Flow */
+        .journey-flow {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .journey-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .journey-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #60a5fa;
+            font-size: 1.5rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        /* Connection Methods Grid */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .method-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(96, 165, 250, 0.6);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .method-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .method-title {
+            flex: 1;
+        }
+
+        .method-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 5px;
+        }
+
+        .method-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .method-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-popular {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .badge-secure {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 1px solid #a855f7;
+        }
+
+        .badge-enterprise {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+            border: 1px solid #eab308;
+        }
+
+        /* Setup Approaches */
+        .setup-approaches {
+            margin-top: 20px;
+        }
+
+        .approaches-title {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .approach-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .approach-item {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #3b82f6;
+            transition: all 0.2s ease;
+        }
+
+        .approach-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-left-color: #60a5fa;
+        }
+
+        .approach-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .approach-name {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        .approach-time {
+            font-size: 0.8rem;
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .approach-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .approach-features {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(100, 116, 139, 0.2);
+            color: #cbd5e1;
+        }
+
+        /* Database Support Section */
+        .db-support {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .db-support h2 {
+            color: #60a5fa;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .db-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .db-category {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .db-category-title {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .db-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .db-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        /* Security Flow */
+        .security-section {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .security-section h2 {
+            color: #a855f7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .security-item {
+            background: rgba(168, 85, 247, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .security-item-title {
+            color: #e9d5ff;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .security-item-desc {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-flow {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .journey-step:not(:last-child)::after {
+                content: '↓';
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔌 Database Connection Architecture</h1>
+        <p class="subtitle">Complete Platform Integration Framework</p>
+
+        <!-- User Journey -->
+        <div class="journey-flow">
+            <div class="journey-step">
+                <div class="step-number">1</div>
+                <div class="step-title">Connection Method</div>
+            </div>
+            <div class="journey-step">
+                <div class="step-number">2</div>
+                <div class="step-title">Setup Approach</div>
+            </div>
+            <div class="journey-step">
+                <div class="step-number">3</div>
+                <div class="step-title">Database Info</div>
+            </div>
+            <div class="journey-step">
+                <div class="step-number">4</div>
+                <div class="step-title">Execute Setup</div>
+            </div>
+            <div class="journey-step">
+                <div class="step-number">5</div>
+                <div class="step-title">Test & Confirm</div>
+            </div>
+        </div>
+
+        <!-- Connection Methods Grid -->
+        <div class="methods-grid">
+            <!-- Method 1 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔌</div>
+                    <div class="method-title">
+                        <div class="method-name">Direct Database Connection</div>
+                        <div class="method-desc">Connect with read-only credentials</div>
+                    </div>
+                    <div class="method-badge badge-popular">Popular</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">⚡ One-Click Setup</div>
+                                <div class="approach-time">30s</div>
+                            </div>
+                            <div class="approach-desc">We create the read-only user automatically</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Temporary admin access</span>
+                                <span class="feature-tag">Fastest</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Guided Copy-Paste</div>
+                                <div class="approach-time">2 min</div>
+                            </div>
+                            <div class="approach-desc">Copy our commands and paste in your DB client</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Recommended</span>
+                                <span class="feature-tag">Full control</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">💻 CLI Tool</div>
+                                <div class="approach-time">1 min</div>
+                            </div>
+                            <div class="approach-desc">Run our script on your machine</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Local execution</span>
+                                <span class="feature-tag">Secure</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📖 Manual Documentation</div>
+                                <div class="approach-time">5 min</div>
+                            </div>
+                            <div class="approach-desc">Follow step-by-step guide</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Maximum control</span>
+                                <span class="feature-tag">Audit trail</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">🏗️ Infrastructure as Code</div>
+                                <div class="approach-time">Varies</div>
+                            </div>
+                            <div class="approach-desc">Terraform/CloudFormation/Ansible templates</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Version controlled</span>
+                                <span class="feature-tag">Enterprise</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Method 2 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">☁️</div>
+                    <div class="method-title">
+                        <div class="method-name">Cloud Read Replica</div>
+                        <div class="method-desc">Use existing read replica endpoint</div>
+                    </div>
+                    <div class="method-badge badge-secure">Secure</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">⚡ One-Click (Cloud Provider OAuth)</div>
+                                <div class="approach-time">30s</div>
+                            </div>
+                            <div class="approach-desc">Sign in with AWS/Azure/GCP</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Zero production impact</span>
+                                <span class="feature-tag">Cloud native</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Guided Setup</div>
+                                <div class="approach-time">5 min</div>
+                            </div>
+                            <div class="approach-desc">Configure read replica endpoint</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">AWS RDS</span>
+                                <span class="feature-tag">Azure SQL</span>
+                                <span class="feature-tag">Google Cloud SQL</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">🏗️ IaC Templates</div>
+                                <div class="approach-time">10 min</div>
+                            </div>
+                            <div class="approach-desc">Automated cloud provisioning</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Terraform</span>
+                                <span class="feature-tag">CloudFormation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Method 3 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔒</div>
+                    <div class="method-title">
+                        <div class="method-name">Private Cloud Connection</div>
+                        <div class="method-desc">PrivateLink / VPN / Private Endpoint</div>
+                    </div>
+                    <div class="method-badge badge-enterprise">Enterprise</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Guided AWS PrivateLink</div>
+                                <div class="approach-time">15 min</div>
+                            </div>
+                            <div class="approach-desc">VPC endpoint configuration</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">No public exposure</span>
+                                <span class="feature-tag">High security</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Azure Private Endpoint</div>
+                                <div class="approach-time">15 min</div>
+                            </div>
+                            <div class="approach-desc">Network peering setup</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">VNet integration</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📖 Manual VPN Setup</div>
+                                <div class="approach-time">20 min</div>
+                            </div>
+                            <div class="approach-desc">Site-to-site VPN tunnel</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">IPsec</span>
+                                <span class="feature-tag">Enterprise-grade</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">🏗️ IaC Automation</div>
+                                <div class="approach-time">Custom</div>
+                            </div>
+                            <div class="approach-desc">Fully automated private network setup</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Terraform</span>
+                                <span class="feature-tag">Pulumi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Method 4 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🚇</div>
+                    <div class="method-title">
+                        <div class="method-name">SSH Tunnel</div>
+                        <div class="method-desc">Secure tunnel through bastion host</div>
+                    </div>
+                    <div class="method-badge badge-secure">Secure</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Guided Setup</div>
+                                <div class="approach-time">10 min</div>
+                            </div>
+                            <div class="approach-desc">Configure SSH tunnel with our wizard</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">SSH key</span>
+                                <span class="feature-tag">Password</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">💻 CLI Agent</div>
+                                <div class="approach-time">5 min</div>
+                            </div>
+                            <div class="approach-desc">Run our tunnel client locally</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Background process</span>
+                                <span class="feature-tag">Auto-reconnect</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📖 Manual Configuration</div>
+                                <div class="approach-time">15 min</div>
+                            </div>
+                            <div class="approach-desc">Standard SSH tunnel setup</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">OpenSSH</span>
+                                <span class="feature-tag">PuTTY</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Method 5 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">🔗</div>
+                    <div class="method-title">
+                        <div class="method-name">API / GraphQL Endpoint</div>
+                        <div class="method-desc">Connect via existing API</div>
+                    </div>
+                    <div class="method-badge badge-popular">Popular</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">⚡ OAuth 2.0 / API Key</div>
+                                <div class="approach-time">2 min</div>
+                            </div>
+                            <div class="approach-desc">Authenticate with existing API credentials</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Stripe</span>
+                                <span class="feature-tag">Salesforce</span>
+                                <span class="feature-tag">HubSpot</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Custom API Mapping</div>
+                                <div class="approach-time">10 min</div>
+                            </div>
+                            <div class="approach-desc">Define custom endpoints and schemas</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">REST</span>
+                                <span class="feature-tag">GraphQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Method 6 -->
+            <div class="method-card">
+                <div class="method-header">
+                    <div class="method-icon">📊</div>
+                    <div class="method-title">
+                        <div class="method-name">ODBC / JDBC DSN</div>
+                        <div class="method-desc">Use configured data source</div>
+                    </div>
+                    <div class="method-badge badge-enterprise">Enterprise</div>
+                </div>
+
+                <div class="setup-approaches">
+                    <div class="approaches-title">📋 Setup Approaches</div>
+                    <div class="approach-list">
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📋 Guided DSN Configuration</div>
+                                <div class="approach-time">5 min</div>
+                            </div>
+                            <div class="approach-desc">Point to existing ODBC/JDBC data source</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">Windows</span>
+                                <span class="feature-tag">Linux</span>
+                            </div>
+                        </div>
+
+                        <div class="approach-item">
+                            <div class="approach-header">
+                                <div class="approach-name">📖 Manual DSN Setup</div>
+                                <div class="approach-time">10 min</div>
+                            </div>
+                            <div class="approach-desc">Create new system/user DSN</div>
+                            <div class="approach-features">
+                                <span class="feature-tag">ODBC Manager</span>
+                                <span class="feature-tag">Driver config</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Support -->
+        <div class="db-support">
+            <h2>🗄️ Supported Databases (20+)</h2>
+            <div class="db-categories">
+                <div class="db-category">
+                    <div class="db-category-title">Relational Databases</div>
+                    <div class="db-list">
+                        <div class="db-item">🐘 PostgreSQL</div>
+                        <div class="db-item">🐬 MySQL</div>
+                        <div class="db-item">🏢 SQL Server</div>
+                        <div class="db-item">🔴 Oracle</div>
+                        <div class="db-item">🔵 MariaDB</div>
+                        <div class="db-item">💙 IBM Db2</div>
+                        <div class="db-item">📁 SQLite</div>
+                    </div>
+                </div>
+
+                <div class="db-category">
+                    <div class="db-category-title">NoSQL Databases</div>
+                    <div class="db-list">
+                        <div class="db-item">🍃 MongoDB</div>
+                        <div class="db-item">🔶 Redis</div>
+                        <div class="db-item">💎 Cassandra</div>
+                        <div class="db-item">📚 CouchDB</div>
+                        <div class="db-item">⚡ DynamoDB</div>
+                    </div>
+                </div>
+
+                <div class="db-category">
+                    <div class="db-category-title">Cloud Warehouses</div>
+                    <div class="db-list">
+                        <div class="db-item">❄️ Snowflake</div>
+                        <div class="db-item">🔷 BigQuery</div>
+                        <div class="db-item">🔴 Redshift</div>
+                        <div class="db-item">🔷 Azure Synapse</div>
+                        <div class="db-item">🧱 Databricks</div>
+                    </div>
+                </div>
+
+                <div class="db-category">
+                    <div class="db-category-title">Time Series & Specialized</div>
+                    <div class="db-list">
+                        <div class="db-item">📈 InfluxDB</div>
+                        <div class="db-item">⏱️ TimescaleDB</div>
+                        <div class="db-item">🔍 Elasticsearch</div>
+                        <div class="db-item">🌊 Apache Druid</div>
+                        <div class="db-item">⚡ ClickHouse</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Layer -->
+        <div class="security-section">
+            <h2>🔐 Security & Validation Layer</h2>
+            <div class="security-grid">
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>🔒</span>
+                        Encryption (Transit & Rest)
+                    </div>
+                    <div class="security-item-desc">
+                        TLS 1.3 in transit<br>
+                        AES-256 at rest<br>
+                        No plain-text storage
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>🔑</span>
+                        Secrets Management
+                    </div>
+                    <div class="security-item-desc">
+                        HashiCorp Vault<br>
+                        AWS Secrets Manager<br>
+                        Encrypted memory only
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>👁️</span>
+                        Read-Only Enforcement
+                    </div>
+                    <div class="security-item-desc">
+                        SELECT only<br>
+                        Block DDL/DML<br>
+                        Permission validation
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>📝</span>
+                        Audit Logging
+                    </div>
+                    <div class="security-item-desc">
+                        All connections logged<br>
+                        Query audit trail<br>
+                        SOC 2 compliant
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>🌐</span>
+                        Network Security
+                    </div>
+                    <div class="security-item-desc">
+                        IP whitelisting<br>
+                        VPN support<br>
+                        PrivateLink compatible
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>✅</span>
+                        Connection Validation
+                    </div>
+                    <div class="security-item-desc">
+                        Network connectivity test<br>
+                        Credential verification<br>
+                        Permission scan
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>🔍</span>
+                        Schema Discovery
+                    </div>
+                    <div class="security-item-desc">
+                        Auto-detect tables<br>
+                        Column metadata<br>
+                        Relationship mapping
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <div class="security-item-title">
+                        <span>⚡</span>
+                        Rate Limiting
+                    </div>
+                    <div class="security-item-desc">
+                        Query throttling<br>
+                        Connection pooling<br>
+                        DDoS protection
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background: rgba(34, 197, 94, 0.3); border: 1px solid #22c55e;"></div>
+                <span>Popular Choice</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: rgba(168, 85, 247, 0.3); border: 1px solid #a855f7;"></div>
+                <span>High Security</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: rgba(234, 179, 8, 0.3); border: 1px solid #eab308;"></div>
+                <span>Enterprise Grade</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add click-to-expand functionality for approach items
+        document.querySelectorAll('.approach-item').forEach(item => {
+            item.addEventListener('click', function () {
+                this.style.transform = this.style.transform === 'scale(1.02)' ? 'scale(1)' : 'scale(1.02)';
+            });
+        });
+    </script>
+</body>
+
+</html>

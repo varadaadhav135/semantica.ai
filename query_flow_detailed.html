@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantica Query Flow - Detailed Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
+            color: #F0F4F8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #D4AF37 0%, #6366F1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94A3B8;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+
+        .query-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .query-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(211, 175, 55, 0.3);
+            border-radius: 12px;
+            color: #F0F4F8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .query-btn:hover {
+            background: rgba(211, 175, 55, 0.1);
+            border-color: #D4AF37;
+            transform: translateY(-2px);
+        }
+
+        .query-btn.active {
+            background: linear-gradient(135deg, #D4AF37 0%, #6366F1 100%);
+            border-color: #D4AF37;
+            box-shadow: 0 8px 20px rgba(211, 175, 55, 0.3);
+        }
+
+        .flow-container {
+            position: relative;
+            padding: 30px;
+        }
+
+        .phase {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .phase-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #D4AF37 0%, #6366F1 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .phase-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #D4AF37;
+        }
+
+        .step {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 3px solid #6366F1;
+            padding: 15px 20px;
+            margin: 12px 0;
+            border-radius: 8px;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #6366F1;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .step-content {
+            color: #CBD5E1;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .step-detail {
+            margin-top: 10px;
+            padding-left: 15px;
+            border-left: 2px solid rgba(99, 102, 241, 0.3);
+            color: #94A3B8;
+            font-size: 0.9em;
+        }
+
+        .code-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            margin-top: 8px;
+            color: #10B981;
+            overflow-x: auto;
+        }
+
+        .arrow {
+            text-align: center;
+            color: #D4AF37;
+            font-size: 2em;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: rgba(211, 175, 55, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #D4AF37;
+            font-weight: 500;
+        }
+
+        .output-format {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #10B981;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin: 3px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .metric {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.15);
+            color: #6366F1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-size: 0.85em;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔄 Query Flow Journey</h1>
+        <p class="subtitle">From Natural Language to Multi-Format Output</p>
+
+        <div class="query-selector">
+            <button class="query-btn active" data-type="simple">Simple Query</button>
+            <button class="query-btn" data-type="complex">Complex Multi-Table</button>
+            <button class="query-btn" data-type="analytical">Analytical Query</button>
+            <button class="query-btn" data-type="document">Document Search</button>
+        </div>
+
+        <div id="flowContent"></div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #D4AF37, #6366F1);"></div>
+                <span>Phase Indicator</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(99, 102, 241, 0.3);"></div>
+                <span>Processing Step</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(16, 185, 129, 0.3);"></div>
+                <span>Output Format</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const queryFlows = {
+            simple: {
+                query: "Show all active users",
+                phases: [
+                    {
+                        title: "User Interface Layer",
+                        steps: [
+                            {
+                                title: "Query Input",
+                                content: "User types natural language query in the search bar",
+                                detail: "Frontend captures input via React controlled component",
+                                code: 'POST /api/v1/query\n{ "query": "Show all active users", "sessionId": "abc123" }'
+                            },
+                            {
+                                title: "Client Validation",
+                                content: "Frontend validates query is not empty and session is active",
+                                detail: "Shows loading spinner, disables input"
+                            }
+                        ]
+                    },
+                    {
+                        title: "API Gateway & Security",
+                        steps: [
+                            {
+                                title: "Authentication Check",
+                                content: "Verify JWT token in Authorization header",
+                                detail: "Extracts user_id, tenant_id, permissions from token payload",
+                                metric: "< 10ms"
+                            },
+                            {
+                                title: "Rate Limiting",
+                                content: "Check Redis for request count",
+                                detail: "Key: rate_limit:user_123 | Limit: 100 req/min",
+                                metric: "< 5ms"
+                            },
+                            {
+                                title: "Prompt Firewall",
+                                content: "Scan for SQL injection patterns, dangerous commands",
+                                detail: "Blocks: DROP, DELETE, EXEC, malicious escapes",
+                                metric: "< 15ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Agent Orchestration - Supervisor",
+                        steps: [
+                            {
+                                title: "Intent Analysis",
+                                content: "LLM analyzes query to determine intent and route",
+                                detail: "Model: Claude 3.5 Sonnet | Classification: 'simple_select'",
+                                code: 'Intent: STRUCTURED_QUERY\nTarget: SQL_AGENT\nComplexity: LOW\nEstimated Tables: 1'
+                            },
+                            {
+                                title: "Table Scoring",
+                                content: "Pre-filter relevant tables using heuristic matching",
+                                detail: "Query tokens: [show, all, active, users]\nMatched: users (score: 0.95), user_profiles (score: 0.42)",
+                                metric: "< 20ms"
+                            },
+                            {
+                                title: "Route Decision",
+                                content: "Route to SQL Agent with top 3 tables",
+                                detail: "Selected tables: users, user_sessions"
+                            }
+                        ]
+                    },
+                    {
+                        title: "SQL Agent - Query Generation",
+                        steps: [
+                            {
+                                title: "Model Selection (Cost Router)",
+                                content: "Complexity score: 2 → Route to Groq Llama 3 70B",
+                                detail: "Cost: ₹0.05 per query (vs ₹0.50 for GPT-4o)",
+                                metric: "70% cost reduction"
+                            },
+                            {
+                                title: "Schema Context Assembly",
+                                content: "Fetch table schemas for selected tables",
+                                code: 'Table: users\nColumns: id, name, email, status, created_at\nSample: status IN (active, inactive, pending)'
+                            },
+                            {
+                                title: "SQL Generation",
+                                content: "LLM generates SQL query based on intent and schema",
+                                code: 'SELECT id, name, email, created_at\nFROM users\nWHERE status = \'active\'\nORDER BY created_at DESC\nLIMIT 10000;',
+                                metric: "< 800ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Validation Layer",
+                        steps: [
+                            {
+                                title: "Security Validator",
+                                content: "Block dangerous SQL operations",
+                                detail: "Verified: No DELETE, DROP, UPDATE, INSERT detected ✓"
+                            },
+                            {
+                                title: "Schema Validator",
+                                content: "Verify tables and columns exist",
+                                detail: "users.status ✓ | users.name ✓ | All columns valid"
+                            },
+                            {
+                                title: "Row Limiter",
+                                content: "Ensure LIMIT clause exists (max 10,000 rows)",
+                                detail: "LIMIT 10000 present ✓"
+                            },
+                            {
+                                title: "Query Cost Estimator",
+                                content: "Run EXPLAIN to estimate execution time",
+                                detail: "Estimated rows: 1,234 | Est. time: 45ms | Cost: Low",
+                                metric: "< 30ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Database Execution",
+                        steps: [
+                            {
+                                title: "Credential Decryption",
+                                content: "Retrieve encrypted credentials from HashiCorp Vault",
+                                detail: "Vault path: secret/tenant_xyz/db_primary | Decrypt with AES-256",
+                                metric: "< 50ms"
+                            },
+                            {
+                                title: "Connection Pool",
+                                content: "Get read-only connection from pool",
+                                detail: "Pool: 5/10 connections active | Timeout: 30s"
+                            },
+                            {
+                                title: "Query Execution",
+                                content: "Execute SQL on customer's database (read-only user)",
+                                code: 'Connecting to: postgres://customer-db.aws.com:5432\nExecuting query...\nRows returned: 847',
+                                metric: "< 120ms"
+                            },
+                            {
+                                title: "Data Transfer",
+                                content: "Stream results to memory (never written to disk)",
+                                detail: "847 rows loaded to RAM | Size: 42 KB"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Business Analyst Agent",
+                        steps: [
+                            {
+                                title: "Data Summary",
+                                content: "Generate executive summary of results",
+                                detail: "Model: Claude 3.5 Sonnet",
+                                code: 'Analysis:\n• Total active users: 847\n• Most recent signup: 2 hours ago\n• Growth trend: +12% this month'
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visualization Agent",
+                        steps: [
+                            {
+                                title: "Format Decision",
+                                content: "Analyze data structure to choose optimal visualization",
+                                detail: "Data type: List of records | Best format: Table",
+                                code: 'Chosen formats:\n✓ Table (primary)\n✓ CSV export (secondary)\n✓ Excel (optional)'
+                            }
+                        ]
+                    },
+                    {
+                        title: "Output Generation",
+                        steps: [
+                            {
+                                title: "Multi-Format Rendering",
+                                content: "Generate multiple output formats simultaneously",
+                                outputs: ["Interactive Table", "CSV", "Excel", "PDF", "JSON API"],
+                                metric: "< 200ms"
+                            },
+                            {
+                                title: "Response Assembly",
+                                content: "Package results with metadata",
+                                code: '{\n  "success": true,\n  "rows": 847,\n  "executionTime": "187ms",\n  "dataSource": "Primary DB",\n  "freshness": "Real-time",\n  "formats": ["table", "csv", "excel"]\n}'
+                            }
+                        ]
+                    },
+                    {
+                        title: "Delivery to User",
+                        steps: [
+                            {
+                                title: "WebSocket Streaming",
+                                content: "Stream results via WebSocket for real-time updates",
+                                detail: "Progressive rendering: Show first 50 rows immediately"
+                            },
+                            {
+                                title: "Frontend Rendering",
+                                content: "React renders interactive table with sorting, filtering",
+                                detail: "Virtual scrolling enabled for large datasets"
+                            },
+                            {
+                                title: "Export Options",
+                                content: "User can export in any format with one click",
+                                outputs: ["Download CSV", "Download Excel", "Share Link", "Add to Dashboard"]
+                            }
+                        ]
+                    }
+                ],
+                totalTime: "~1.5s",
+                totalCost: "₹0.08"
+            },
+            complex: {
+                query: "Show Q4 2025 revenue by region with year-over-year growth",
+                phases: [
+                    {
+                        title: "User Interface Layer",
+                        steps: [
+                            {
+                                title: "Query Input",
+                                content: "User enters complex analytical query",
+                                code: 'POST /api/v1/query\n{ "query": "Show Q4 2025 revenue by region with year-over-year growth" }'
+                            }
+                        ]
+                    },
+                    {
+                        title: "API Gateway & Security",
+                        steps: [
+                            {
+                                title: "Full Security Pipeline",
+                                content: "JWT auth → Rate limiting → Prompt firewall",
+                                detail: "All checks passed ✓",
+                                metric: "< 30ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Supervisor - Complex Routing",
+                        steps: [
+                            {
+                                title: "Intent Analysis",
+                                content: "Detects multi-table JOIN + time-series comparison",
+                                detail: "Model: Claude 3.5 Sonnet | Complexity: HIGH",
+                                code: 'Intent: ANALYTICAL_QUERY\nRequires: Multi-table JOIN, Date filtering, Aggregation\nComplexity Score: 8/10'
+                            },
+                            {
+                                title: "Ambiguity Detection",
+                                content: "Identifies ambiguous term: 'revenue'",
+                                detail: "Possible meanings: gross_revenue, net_revenue, recognized_revenue",
+                                code: 'Clarification needed:\n"Which revenue metric?"\nOptions:\n1. Gross Revenue (before costs)\n2. Net Revenue (after costs)\n3. Recognized Revenue (accounting)'
+                            },
+                            {
+                                title: "User Clarification",
+                                content: "Show disambiguation dialog to user",
+                                detail: "User selects: 'Net Revenue' | Preference saved for future"
+                            },
+                            {
+                                title: "Table Scoring",
+                                content: "Identify all relevant tables",
+                                code: 'Matched tables:\n• sales (score: 0.92) - has revenue columns\n• regions (score: 0.88) - geography data\n• time_periods (score: 0.75) - date dimensions',
+                                metric: "< 40ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "SQL Agent - Complex Query",
+                        steps: [
+                            {
+                                title: "Model Selection",
+                                content: "Complexity score: 8 → Route to GPT-4o",
+                                detail: "Requires advanced reasoning for multi-table JOIN",
+                                metric: "Cost: ₹0.50"
+                            },
+                            {
+                                title: "Schema Assembly",
+                                content: "Fetch schemas for 3 tables with relationships",
+                                code: 'sales: id, region_id, amount, date, type\nregions: id, name, country\ntime_periods: date, quarter, year'
+                            },
+                            {
+                                title: "Complex SQL Generation",
+                                content: "Generate multi-CTE query with year-over-year calculation",
+                                code: 'WITH q4_2025 AS (\n  SELECT r.name, SUM(s.net_amount) as revenue\n  FROM sales s\n  JOIN regions r ON s.region_id = r.id\n  WHERE s.date BETWEEN \'2025-10-01\' AND \'2025-12-31\'\n  GROUP BY r.name\n),\nq4_2024 AS (\n  SELECT r.name, SUM(s.net_amount) as revenue\n  FROM sales s JOIN regions r ON s.region_id = r.id\n  WHERE s.date BETWEEN \'2024-10-01\' AND \'2024-12-31\'\n  GROUP BY r.name\n)\nSELECT \n  a.name as region,\n  a.revenue as q4_2025_revenue,\n  b.revenue as q4_2024_revenue,\n  ROUND((a.revenue - b.revenue) / b.revenue * 100, 2) as yoy_growth_pct\nFROM q4_2025 a\nLEFT JOIN q4_2024 b ON a.name = b.name\nORDER BY yoy_growth_pct DESC;',
+                                metric: "< 2.5s"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Enhanced Validation",
+                        steps: [
+                            {
+                                title: "Multi-Layer Validation",
+                                content: "Security ✓ | Schema ✓ | JOIN correctness ✓ | Date range validity ✓"
+                            },
+                            {
+                                title: "Intent Alignment Check",
+                                content: "LLM verifies SQL matches original question",
+                                detail: "Verification: Query correctly computes YoY growth ✓",
+                                metric: "< 500ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Database Execution",
+                        steps: [
+                            {
+                                title: "Query Execution",
+                                content: "Execute complex query with JOINs and aggregations",
+                                detail: "Rows scanned: 45,678 | Rows returned: 8 regions",
+                                metric: "< 850ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Business Analyst - Deep Insights",
+                        steps: [
+                            {
+                                title: "Strategic Analysis",
+                                content: "Generate executive insights with recommendations",
+                                code: 'Key Insights:\n• Best performer: North America (+45% YoY)\n• Concerning: Europe (-8% YoY)\n• Total Q4 revenue: $12.4M (+15% YoY)\n\nRecommendations:\n→ Investigate Europe decline\n→ Replicate NA success in Asia\n→ Q1 forecast: $13.8M based on trend',
+                                metric: "< 1.2s"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Viz Agent - Multi-Format Decision",
+                        steps: [
+                            {
+                                title: "Smart Visualization",
+                                content: "Data has growth metric → Choose bar chart with trend line",
+                                code: 'Selected formats:\n✓ Bar Chart (YoY comparison)\n✓ Line Chart (trend)\n✓ Table (detailed numbers)\n✓ Executive Summary (text)',
+                                metric: "< 300ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Multi-Format Output",
+                        steps: [
+                            {
+                                title: "Generate All Formats",
+                                content: "Create multiple output types simultaneously",
+                                outputs: [
+                                    "Interactive Bar Chart (Plotly)",
+                                    "Trend Line Chart",
+                                    "Data Table",
+                                    "Executive Summary",
+                                    "PowerPoint Slide",
+                                    "PDF Report",
+                                    "CSV Export"
+                                ],
+                                metric: "< 600ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Delivery & Collaboration",
+                        steps: [
+                            {
+                                title: "Rich UI Rendering",
+                                content: "Display charts, table, and insights in tabbed interface"
+                            },
+                            {
+                                title: "Share Options",
+                                content: "Generate shareable link with access controls",
+                                detail: "Link expires: 7 days | Password: Optional | Permissions: View-only"
+                            },
+                            {
+                                title: "Export Suite",
+                                outputs: [
+                                    "Email to Team",
+                                    "Post to Slack",
+                                    "Add to Dashboard",
+                                    "Schedule Weekly"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                totalTime: "~4.8s",
+                totalCost: "₹0.65"
+            },
+            analytical: {
+                query: "Predict next month's sales with 95% confidence interval",
+                phases: [
+                    {
+                        title: "User Interface Layer",
+                        steps: [
+                            {
+                                title: "Advanced Query Input",
+                                content: "User requests statistical forecasting",
+                                code: 'POST /api/v1/query\n{ "query": "Predict next months sales with 95% confidence interval" }'
+                            }
+                        ]
+                    },
+                    {
+                        title: "Security Pipeline",
+                        steps: [
+                            {
+                                title: "Standard Security Checks",
+                                content: "Auth → Rate limit → Prompt firewall",
+                                metric: "< 30ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Supervisor - Advanced Routing",
+                        steps: [
+                            {
+                                title: "Intent Classification",
+                                content: "Detects advanced analytics requirement",
+                                code: 'Intent: PREDICTIVE_ANALYTICS\nRoute: DATA_SCIENTIST_AGENT\nRequired: Python sandbox, Statistical libraries\nComplexity: VERY_HIGH (9/10)',
+                                detail: "Model: Claude 3.5 Sonnet"
+                            },
+                            {
+                                title: "Capability Check",
+                                content: "Verify Python sandbox is available and has required libraries",
+                                detail: "E2B Sandbox: Active ✓ | Libraries: pandas, statsmodels, prophet ✓"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Dual-Agent Workflow",
+                        steps: [
+                            {
+                                title: "SQL Agent - Data Extraction",
+                                content: "First, fetch historical sales data",
+                                code: 'SELECT date, SUM(amount) as daily_sales\nFROM sales\nWHERE date >= DATE_SUB(CURRENT_DATE, INTERVAL 12 MONTH)\nGROUP BY date\nORDER BY date;'
+                            },
+                            {
+                                title: "Execute Query",
+                                content: "Retrieve 365 days of historical data",
+                                detail: "Rows returned: 365 | Time range: Jan 2024 - Jan 2025",
+                                metric: "< 200ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Data Scientist Agent",
+                        steps: [
+                            {
+                                title: "Model Selection",
+                                content: "Route to GPT-4o for Python code generation",
+                                detail: "Cost: ₹0.60 | Required for complex statistical code",
+                                metric: "High complexity"
+                            },
+                            {
+                                title: "Python Code Generation",
+                                content: "LLM generates forecasting code using Prophet",
+                                code: 'from prophet import Prophet\nimport pandas as pd\n\n# Prepare data\ndf = pd.DataFrame(historical_data)\ndf.columns = [\'ds\', \'y\']\n\n# Train model\nmodel = Prophet(interval_width=0.95)\nmodel.fit(df)\n\n# Forecast 30 days\nfuture = model.make_future_dataframe(periods=30)\nforecast = model.predict(future)\n\n# Extract prediction\nresult = forecast.tail(30)[\'yhat\', \'yhat_lower\', \'yhat_upper\']',
+                                metric: "< 3s"
+                            },
+                            {
+                                title: "Sandbox Execution",
+                                content: "Execute Python code in isolated E2B sandbox",
+                                detail: "Security: No network access | Timeout: 30s | Max memory: 512MB",
+                                metric: "< 8s"
+                            },
+                            {
+                                title: "Results Extraction",
+                                content: "Parse forecast results from sandbox",
+                                code: 'Prediction for Feb 2025:\n• Expected: $485,000\n• 95% CI Lower: $420,000\n• 95% CI Upper: $550,000\n• Model confidence: High\n• MAE: $12,500',
+                                metric: "< 100ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Business Analyst - Forecast Insights",
+                        steps: [
+                            {
+                                title: "Strategic Interpretation",
+                                content: "Generate business recommendations from forecast",
+                                code: 'Analysis:\n• Forecast shows +8% growth vs last month\n• BUT: Wide confidence interval indicates volatility\n• Risk: 5% chance sales drop to $420K\n\nActions:\n→ Prepare conservative budget using lower bound\n→ Investigate volatility drivers\n→ Consider promotional boost to exceed upper bound',
+                                metric: "< 1.5s"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Viz Agent - Statistical Charts",
+                        steps: [
+                            {
+                                title: "Chart Selection",
+                                content: "Time-series data + CI → Line chart with shaded bands",
+                                outputs: [
+                                    "Line Chart with CI Bands",
+                                    "Historical vs Forecast Table",
+                                    "Accuracy Metrics",
+                                    "Model Diagnostics"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "Rich Output Generation",
+                        steps: [
+                            {
+                                title: "Multi-Format Creation",
+                                outputs: [
+                                    "Interactive Forecast Chart",
+                                    "Statistical Report (PDF)",
+                                    "Forecast Data (CSV)",
+                                    "Executive Briefing",
+                                    "Jupyter Notebook (reproducible)"
+                                ],
+                                metric: "< 800ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Delivery with Confidence Metadata",
+                        steps: [
+                            {
+                                title: "Render Advanced Visualizations",
+                                content: "Display forecast with confidence bands and annotations",
+                                detail: "Chart shows 12-month history + 30-day forecast | Interactive hover"
+                            },
+                            {
+                                title: "Transparency Indicators",
+                                content: "Show model details and limitations",
+                                code: 'Model: Facebook Prophet\nAccuracy: 89% (based on backtesting)\nLimitations: Assumes trend continuity\nData Quality: 98% complete'
+                            }
+                        ]
+                    }
+                ],
+                totalTime: "~12s",
+                totalCost: "₹0.75"
+            },
+            document: {
+                query: "What does our refund policy say about damaged items?",
+                phases: [
+                    {
+                        title: "User Interface Layer",
+                        steps: [
+                            {
+                                title: "Natural Language Question",
+                                content: "User asks question about unstructured document content",
+                                code: 'POST /api/v1/query\n{ "query": "What does our refund policy say about damaged items?" }'
+                            }
+                        ]
+                    },
+                    {
+                        title: "Security Pipeline",
+                        steps: [
+                            {
+                                title: "Standard Checks",
+                                content: "Auth → Rate limit → Prompt firewall",
+                                metric: "< 30ms"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Supervisor - Document Routing",
+                        steps: [
+                            {
+                                title: "Intent Detection",
+                                content: "Identifies question about unstructured content",
+                                code: 'Intent: DOCUMENT_SEARCH\nRoute: RAG_AGENT\nTarget: PDF/Markdown documents\nComplexity: MEDIUM (5/10)',
+                                detail: "No SQL database needed for this query"
+                            }
+                        ]
+                    },
+                    {
+                        title: "RAG Agent - Semantic Search",
+                        steps: [
+                            {
+                                title: "Query Embedding",
+                                content: "Convert question to vector embedding",
+                                detail: "Model: text-embedding-3-small | Dimensions: 1536",
+                                metric: "< 50ms"
+                            },
+                            {
+                                title: "Vector Search",
+                                content: "Search LanceDB for most relevant document chunks",
+                                code: 'Query vector: [0.234, -0.123, 0.456, ...]\n\nTop 5 matches:\n1. refund_policy.pdf (page 3) - similarity: 0.94\n2. customer_terms.pdf (page 7) - similarity: 0.81\n3. warranty_guide.pdf (page 2) - similarity: 0.76\n4. return_process.md - similarity: 0.72\n5. FAQ.md (section 8) - similarity: 0.68',
+                                metric: "< 120ms"
+                            },
+                            {
+                                title: "Context Assembly",
+                                content: "Retrieve full text of top 3 matched chunks",
+                                detail: "Total context: 2,400 tokens from 3 sources"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Answer Generation",
+                        steps: [
+                            {
+                                title: "Model Selection",
+                                content: "Medium complexity → Route to GPT-4o-mini",
+                                detail: "Cost: ₹0.12 | Good balance for Q&A",
+                                metric: "60% cheaper than GPT-4o"
+                            },
+                            {
+                                title: "Prompt Construction",
+                                content: "Build RAG prompt with question + retrieved context",
+                                code: 'System: Answer based ONLY on provided context. Cite sources.\n\nContext:\n[refund_policy.pdf, p.3]\n"Damaged items are eligible for full refund within 30 days. Customer must provide photo evidence..."\n\n[customer_terms.pdf, p.7]\n"Damaged goods replacement process requires..."\n\nQuestion: What does our refund policy say about damaged items?'
+                            },
+                            {
+                                title: "LLM Response Generation",
+                                content: "Generate answer with citations",
+                                code: 'According to our refund policy (refund_policy.pdf, page 3):\n\n• Damaged items qualify for FULL REFUND within 30 days of purchase\n• Customer must provide:\n  - Photo evidence of damage\n  - Original packaging\n  - Proof of purchase\n• Refund processed within 5-7 business days\n• Shipping costs covered by company if damage occurred during transit\n\nSource: refund_policy.pdf (page 3), last updated: Dec 2024',
+                                metric: "< 1.8s"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Auditor - Verification",
+                        steps: [
+                            {
+                                title: "Hallucination Check",
+                                content: "Verify answer is grounded in source documents",
+                                detail: "All claims traced to source ✓ | No fabricated info ✓",
+                                metric: "< 400ms"
+                            },
+                            {
+                                title: "Citation Validation",
+                                content: "Verify all cited pages exist and are accurate",
+                                detail: "refund_policy.pdf page 3 exists ✓ | Quote matches ✓"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Viz Agent - Document Response",
+                        steps: [
+                            {
+                                title: "Format Selection",
+                                content: "Q&A response → Text summary with document previews",
+                                outputs: [
+                                    "Formatted Answer (markdown)",
+                                    "Source Document Previews",
+                                    "Citation Links",
+                                    "Related Documents"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "Output Rendering",
+                        steps: [
+                            {
+                                title: "Rich Text Display",
+                                content: "Render answer with syntax highlighting and formatting",
+                                detail: "Bullets, bold key terms, clickable citations"
+                            },
+                            {
+                                title: "Source Previews",
+                                content: "Show thumbnail previews of cited PDF pages",
+                                detail: "Click to view full document | Highlight relevant section"
+                            },
+                            {
+                                title: "Related Content",
+                                content: "Suggest related documents using similarity",
+                                outputs: [
+                                    "Return Process Guide",
+                                    "Warranty Information",
+                                    "Customer Support FAQ"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "Delivery & Feedback",
+                        steps: [
+                            {
+                                title: "Interactive Response",
+                                content: "User can click citations, view sources, ask follow-ups"
+                            },
+                            {
+                                title: "Feedback Collection",
+                                content: "👍 👎 buttons to improve search quality",
+                                detail: "Negative feedback triggers manual review"
+                            },
+                            {
+                                title: "Export Options",
+                                outputs: [
+                                    "Copy Answer",
+                                    "Email to Customer",
+                                    "Add to Knowledge Base",
+                                    "Print PDF"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                totalTime: "~2.4s",
+                totalCost: "₹0.15"
+            }
+        };
+
+        function renderFlow(type) {
+            const flow = queryFlows[type];
+            const container = document.getElementById('flowContent');
+
+            let html = `
+                <div style="background: rgba(211, 175, 55, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid #D4AF37;">
+                    <h2 style="color: #D4AF37; margin-bottom: 10px;">📝 User Query</h2>
+                    <p style="font-size: 1.3em; font-style: italic; color: #CBD5E1;">"${flow.query}"</p>
+                </div>
+            `;
+
+            flow.phases.forEach((phase, phaseIdx) => {
+                html += `
+                    <div class="phase" style="animation-delay: ${phaseIdx * 0.1}s;">
+                        <div class="phase-header">
+                            <div class="phase-number">${phaseIdx + 1}</div>
+                            <div class="phase-title">${phase.title}</div>
+                        </div>
+                `;
+
+                phase.steps.forEach(step => {
+                    html += `
+                        <div class="step">
+                            <div class="step-title">${step.title}</div>
+                            <div class="step-content">${step.content}</div>
+                    `;
+
+                    if (step.detail) {
+                        html += `<div class="step-detail">💡 ${step.detail}</div>`;
+                    }
+
+                    if (step.code) {
+                        html += `<div class="code-box">${step.code.replace(/\n/g, '<br>')}</div>`;
+                    }
+
+                    if (step.metric) {
+                        html += `<span class="metric">⚡ ${step.metric}</span>`;
+                    }
+
+                    if (step.outputs) {
+                        html += '<div style="margin-top: 10px;">';
+                        step.outputs.forEach(output => {
+                            html += `<span class="output-format">${output}</span>`;
+                        });
+                        html += '</div>';
+                    }
+
+                    html += '</div>';
+                });
+
+                html += `</div>`;
+
+                if (phaseIdx < flow.phases.length - 1) {
+                    html += `<div class="arrow">↓</div>`;
+                }
+            });
+
+            html += `
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(99, 102, 241, 0.2)); padding: 25px; border-radius: 12px; margin-top: 30px; text-align: center;">
+                    <h2 style="color: #10B981; margin-bottom: 15px;">✅ Query Complete</h2>
+                    <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 2em; font-weight: bold; color: #D4AF37;">${flow.totalTime}</div>
+                            <div style="color: #94A3B8;">Total Time</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2em; font-weight: bold; color: #6366F1;">${flow.totalCost}</div>
+                            <div style="color: #94A3B8;">Total Cost</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Initialize
+        renderFlow('simple');
+
+        // Button handlers
+        document.querySelectorAll('.query-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.query-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderFlow(btn.dataset.type);
+            });
+        });
+    </script>
+</body>
+
+</html>
