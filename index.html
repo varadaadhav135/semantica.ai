@@ -5,84 +5,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semantica Documentation Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-color: #8b5cf6;
-            --accent-hover: #7c3aed;
-            --glass-border: rgba(255, 255, 255, 0.08);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-color);
-            background-image:
-                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-            color: var(--text-primary);
-            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
+            color: #F0F4F8;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #c084fc, #6366f1);
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
-            text-align: center;
             letter-spacing: -0.02em;
+            animation: titleFade 1s ease;
         }
 
-        p.subtitle {
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            margin-bottom: 60px;
-            text-align: center;
-            max-width: 600px;
+        @keyframes titleFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            color: #94A3B8;
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
             line-height: 1.6;
+            animation: subtitleFade 1s ease 0.2s backwards;
+        }
+
+        @keyframes subtitleFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
             width: 100%;
-            max-width: 1200px;
         }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             text-decoration: none;
             color: inherit;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            animation: cardFadeIn 0.6s ease backwards;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 20px 40px -6px rgba(139, 92, 246, 0.15);
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card::before {
@@ -92,128 +195,169 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
-            transform: translateX(-100%);
-            transition: 0.6s;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
         }
 
         .card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .card-desc {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
+            opacity: 1;
         }
 
         .icon {
-            margin-bottom: 20px;
-            width: 40px;
-            height: 40px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 10px;
-            color: var(--accent-color);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 16px;
+            color: #fff;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            color: #94A3B8;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
         }
 
         footer {
-            margin-top: auto;
-            padding-top: 60px;
+            margin-top: 80px;
+            padding-top: 30px;
             color: rgba(255, 255, 255, 0.3);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            text-align: center;
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.8rem;
             }
 
             .grid {
                 grid-template-columns: 1fr;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>Semantica Documentation</h1>
+            <p class="subtitle">Comprehensive technical resources, architecture guides, and strategic roadmaps for the
+                Semantica.ai platform.</p>
+        </div>
 
-    <h1>Semantica Documentation</h1>
-    <p class="subtitle">Comprehensive resources and architectural guides for the Semantica.ai platform.</p>
+        <div class="grid">
+            <a href="semantica_roadmap.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">MVP to Production Roadmap</div>
+                <div class="card-desc">Complete 4-week MVP plan, phased development strategy, and zero-migration
+                    architecture from launch to scale.</div>
+            </a>
 
-    <div class="grid">
-        <a href="semantica_roadmap.html" class="card">
-            <div class="icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
-                    </path>
-                </svg>
-            </div>
-            <div class="card-title">Project Roadmap</div>
-            <div class="card-desc">Strategic milestones, development phases, and future goals for Semantica.</div>
-        </a>
+            <a href="technical_stack_implementation.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Tech Stack & Implementation</div>
+                <div class="card-desc">Detailed breakdown of technologies, frameworks, architecture decisions, and
+                    cost-optimized LLM routing strategy.</div>
+            </a>
 
-        <a href="technical_stack_implementation.html" class="card">
-            <div class="icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4">
-                    </path>
-                </svg>
-            </div>
-            <div class="card-title">Tech Stack & Implementation</div>
-            <div class="card-desc">Detailed breakdown of technologies, frameworks, and implementation details.</div>
-        </a>
+            <a href="db_connection.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Database Connection Methods</div>
+                <div class="card-desc">Secure approaches to connecting 50+ data sources including PostgreSQL, MySQL,
+                    MongoDB, Snowflake, and APIs.</div>
+            </a>
 
-        <a href="db_connection.html" class="card">
-            <div class="icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4">
-                    </path>
-                </svg>
-            </div>
-            <div class="card-title">Database Connections</div>
-            <div class="card-desc">Guide on connecting various company databases and data sources securely.</div>
-        </a>
+            <a href="zero_cost_db_connections.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Zero-Cost DB Strategies</div>
+                <div class="card-desc">Innovative architecture for database connectivity without platform infrastructure
+                    costs using customer credentials.</div>
+            </a>
 
-        <a href="zero_cost_db_connections.html" class="card">
-            <div class="icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                    </path>
-                </svg>
-            </div>
-            <div class="card-title">Zero-Cost DB Strategies</div>
-            <div class="card-desc">Innovative methods for maintaining database connectivity without incurring
-                infrastructure costs.</div>
-        </a>
+            <a href="query_flow_detailed.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="card-title">Query Flow Architecture</div>
+                <div class="card-desc">Visual journey from natural language input to multi-format output with AI agent
+                    orchestration and real-time execution.</div>
+            </a>
 
-        <a href="query_flow_detailed.html" class="card">
-            <div class="icon">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
-                </svg>
-            </div>
-            <div class="card-title">Query Flow Logic</div>
-            <div class="card-desc">Detailed visual and textual explanation of how user queries are processed.</div>
-        </a>
+            <a href="security_compliance.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Security & Compliance</div>
+                <div class="card-desc">India-first certification roadmap (DPDP Act, SOC 2, ISO 27001) with phased
+                    strategy and detailed cost breakdown.</div>
+            </a>
+        </div>
+
+        <footer>
+            © 2026 Semantica.ai | Documentation Hub
+        </footer>
     </div>
-
-    <footer>
-        &copy; 2026 Semantica.ai | Documentation Hub
-    </footer>
-
 </body>
 
 </html>
