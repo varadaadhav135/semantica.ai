@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Architecture & Storage | Semantica.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
+            color: #F0F4F8;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            top: -200px;
+            left: -200px;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            color: #94A3B8;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: #F0F4F8;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: headerFade 1s ease;
+        }
+
+        @keyframes headerFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #94A3B8;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .principle-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 35px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cardFadeIn 0.6s ease backwards;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .data-category {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .data-category h4 {
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .data-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-item strong {
+            color: #F0F4F8;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .data-item span {
+            color: #94A3B8;
+            font-size: 0.9rem;
+        }
+
+        .storage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        .storage-table th {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .storage-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #CBD5E1;
+        }
+
+        .storage-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .cost-breakdown {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            margin: 25px 0;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cost-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cost-label {
+            color: #CBD5E1;
+        }
+
+        .cost-value {
+            color: #10b981;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .alert-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .alert-box.warning {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: #ef4444;
+        }
+
+        .alert-box h4 {
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .alert-box.warning h4 {
+            color: #ef4444;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1px;
+            top: 10px;
+            bottom: 0;
+            width: 2px;
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -44px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6366f1;
+            border: 4px solid #0A1929;
+            box-shadow: 0 0 0 2px #6366f1;
+        }
+
+        .timeline-stage {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .timeline-stage h4 {
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            color: #10b981;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="nav-back">← Back to Documentation Hub</a>
+
+        <div class="hero">
+            <h1>🗄️ Data Architecture & Storage</h1>
+            <p class="subtitle">Comprehensive guide to what data we store, where, when, and at what cost</p>
+            <div class="principle-badge">Zero Customer Data Storage ✨</div>
+        </div>
+
+        <!-- Core Principle -->
+        <div class="card">
+            <h2>🎯 Core Data Principle: Real-Time Query, Zero Storage</h2>
+            <p style="color: #CBD5E1; line-height: 1.8; margin-bottom: 20px;">
+                Semantica operates on a <strong style="color: #10b981;">zero customer data storage</strong> model. We
+                NEVER store, cache, or duplicate your actual business data (sales records, customer information,
+                transactions). All queries execute in real-time against YOUR databases, and results are streamed
+                directly to the user interface.
+            </p>
+
+            <div class="alert-box">
+                <h4>✅ What This Means</h4>
+                <p style="color: #CBD5E1;">
+                    • Your sensitive data never leaves your infrastructure<br>
+                    • No data synchronization or ETL pipelines<br>
+                    • Always query against live, real-time data<br>
+                    • Zero risk of stale or outdated information<br>
+                    • Meets strictest compliance requirements (GDPR, HIPAA, SOC 2)
+                </p>
+            </div>
+        </div>
+
+        <!-- What We DO Store -->
+        <div class="card">
+            <h2>💾 Platform Metadata: What We DO Store</h2>
+            <p style="color: #CBD5E1; margin-bottom: 25px;">
+                While we don't store your business data, we maintain essential platform metadata to provide core
+                functionality. Here's the complete breakdown:
+            </p>
+
+            <div class="grid-2">
+                <div class="data-category">
+                    <h4>👤 User & Authentication Data</h4>
+                    <div class="data-item">
+                        <strong>User Accounts</strong>
+                        <span>Email, password hash (bcrypt), tenant ID, role</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>JWT Tokens (Cached)</strong>
+                        <span>Active sessions, refresh tokens (Redis, 7-day TTL)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>MFA Secrets</strong>
+                        <span>TOTP secrets (encrypted, PostgreSQL)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>User Preferences</strong>
+                        <span>Theme, language, dashboard layout (JSON)</span>
+                    </div>
+                </div>
+
+                <div class="data-category">
+                    <h4>🔌 Data Source Metadata</h4>
+                    <div class="data-item">
+                        <strong>Connection Credentials</strong>
+                        <span>DB host, port, username, encrypted password (HashiCorp Vault)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Database Schemas (Cached)</strong>
+                        <span>Table names, column names, data types (Redis, 24hr TTL)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Connection Status</strong>
+                        <span>Last connected timestamp, health checks</span>
+                    </div>
+                </div>
+
+                <div class="data-category">
+                    <h4>📊 Query History & Audit Logs</h4>
+                    <div class="data-item">
+                        <strong>Query Text (NL + SQL)</strong>
+                        <span>Natural language query, generated SQL, execution time</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Query Results Metadata</strong>
+                        <span>Row count, column names (NOT actual data), timestamp</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Access Logs</strong>
+                        <span>User ID, data source accessed, timestamp (1-year retention)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Error Logs</strong>
+                        <span>Failed queries, error messages, stack traces</span>
+                    </div>
+                </div>
+
+                <div class="data-category">
+                    <h4>📁 Temporary Export Files</h4>
+                    <div class="data-item">
+                        <strong>CSV/Excel/PDF Exports</strong>
+                        <span>User-initiated exports (S3, 7-day expiry, then deleted)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Scheduled Reports</strong>
+                        <span>Generated reports (S3, configurable retention)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Shared Query Links</strong>
+                        <span>Snapshot of results for sharing (S3, user-set expiry)</span>
+                    </div>
+                </div>
+
+                <div class="data-category">
+                    <h4>🤖 AI Agent Context</h4>
+                    <div class="data-item">
+                        <strong>User Clarifications</strong>
+                        <span>Saved responses to ambiguity questions (e.g., "Net Revenue")</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Query Templates</strong>
+                        <span>User-saved query patterns and favorites</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Embeddings Cache</strong>
+                        <span>Vector representations of schema for semantic search (LanceDB)</span>
+                    </div>
+                </div>
+
+                <div class="data-category">
+                    <h4>📈 Analytics & Telemetry</h4>
+                    <div class="data-item">
+                        <strong>Usage Metrics</strong>
+                        <span>Query count, active users, feature usage (aggregated)</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Performance Metrics</strong>
+                        <span>Query latency, error rates, API response times</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>Billing Data</strong>
+                        <span>User plan, usage limits, payment status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Infrastructure -->
+        <div class="card">
+            <h2>🏗️ Storage Infrastructure by Stage</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-stage">
+                        <h4>Stage 1: Development (Local)</h4>
+                        <p style="color: #CBD5E1; margin-bottom: 10px;">
+                            <strong>Infrastructure:</strong> Docker Compose<br>
+                            <strong>Databases:</strong> PostgreSQL (app metadata), Redis (cache), Sample customer DB<br>
+                            <strong>Storage:</strong> Local filesystem<br>
+                            <strong>Cost:</strong> <code style="color: #10b981;">$0/month</code> (runs on developer
+                            machines)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-stage">
+                        <h4>Stage 2: MVP (AWS - Small)</h4>
+                        <p style="color: #CBD5E1; margin-bottom: 10px;">
+                            <strong>App Metadata:</strong> RDS PostgreSQL (db.t3.micro, 20GB)<br>
+                            <strong>Cache:</strong> ElastiCache Redis (cache.t3.micro, 1GB)<br>
+                            <strong>Secrets:</strong> AWS Secrets Manager (10 secrets)<br>
+                            <strong>Exports:</strong> S3 (Standard, ~1GB/month, 7-day lifecycle)<br>
+                            <strong>Vector DB:</strong> LanceDB (embedded, EBS 10GB)<br>
+                            <strong>Cost:</strong> <code style="color: #10b981;">~₹2,500/month</code>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-stage">
+                        <h4>Stage 3: Growth (AWS - Medium)</h4>
+                        <p style="color: #CBD5E1; margin-bottom: 10px;">
+                            <strong>App Metadata:</strong> RDS PostgreSQL (db.t3.small, 50GB, Multi-AZ backup)<br>
+                            <strong>Cache:</strong> ElastiCache Redis (cache.t3.small, 5GB)<br>
+                            <strong>Secrets:</strong> HashiCorp Vault (self-hosted, t3.micro)<br>
+                            <strong>Exports:</strong> S3 (Standard, ~10GB/month, Intelligent-Tiering)<br>
+                            <strong>Vector DB:</strong> LanceDB Cloud (Starter, ~100K embeddings)<br>
+                            <strong>Cost:</strong> <code style="color: #10b981;">~₹8,000/month</code>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-stage">
+                        <h4>Stage 4: Production (AWS - Large)</h4>
+                        <p style="color: #CBD5E1; margin-bottom: 10px;">
+                            <strong>App Metadata:</strong> RDS PostgreSQL (db.r5.large, 200GB, Multi-AZ,
+                            auto-backup)<br>
+                            <strong>Cache:</strong> ElastiCache Redis (cache.m5.large, 20GB, cluster mode)<br>
+                            <strong>Secrets:</strong> HashiCorp Vault (HA cluster, 3x t3.small)<br>
+                            <strong>Exports:</strong> S3 (100GB/month, Intelligent-Tiering + Glacier)<br>
+                            <strong>Vector DB:</strong> LanceDB Cloud (Pro, ~1M embeddings)<br>
+                            <strong>Logs:</strong> CloudWatch Logs (~50GB/month, 90-day retention)<br>
+                            <strong>Cost:</strong> <code style="color: #10b981;">~₹18,000/month</code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Cost Breakdown -->
+        <div class="card">
+            <h2>💰 Detailed Storage Cost Breakdown (Production)</h2>
+
+            <div class="cost-breakdown">
+                <div class="cost-row">
+                    <span class="cost-label">PostgreSQL RDS (db.r5.large, Multi-AZ, 200GB)</span>
+                    <span class="cost-value">₹8,500/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">ElastiCache Redis (cache.m5.large, cluster)</span>
+                    <span class="cost-value">₹4,200/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">S3 Storage (100GB + requests)</span>
+                    <span class="cost-value">₹800/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">HashiCorp Vault (HA, 3x t3.small)</span>
+                    <span class="cost-value">₹2,100/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">LanceDB Cloud (Pro, 1M embeddings)</span>
+                    <span class="cost-value">₹1,500/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label">CloudWatch Logs (50GB, 90-day retention)</span>
+                    <span class="cost-value">₹900/mo</span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label"><strong>TOTAL STORAGE COST</strong></span>
+                    <span class="cost-value" style="color: #fff;">₹18,000/mo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Retention -->
+        <div class="card">
+            <h2>⏰ Data Retention Policies</h2>
+
+            <table class="storage-table">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Retention Period</th>
+                        <th>Reason</th>
+                        <th>Deletion Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>User Accounts</td>
+                        <td>Until deletion request</td>
+                        <td>Active accounts</td>
+                        <td>Hard delete on request (GDPR right to erasure)</td>
+                    </tr>
+                    <tr>
+                        <td>JWT Tokens</td>
+                        <td>7 days (Redis TTL)</td>
+                        <td>Session management</td>
+                        <td>Auto-expire (Redis)</td>
+                    </tr>
+                    <tr>
+                        <td>Query History</td>
+                        <td>90 days</td>
+                        <td>Audit compliance</td>
+                        <td>Auto-archive to S3 Glacier, hard delete after 1 year</td>
+                    </tr>
+                    <tr>
+                        <td>Access Logs</td>
+                        <td>1 year</td>
+                        <td>Security audit (CERT-In requirement)</td>
+                        <td>Auto-delete after 1 year</td>
+                    </tr>
+                    <tr>
+                        <td>Schema Cache</td>
+                        <td>24 hours (Redis TTL)</td>
+                        <td>Performance optimization</td>
+                        <td>Auto-expire, refresh on query</td>
+                    </tr>
+                    <tr>
+                        <td>Export Files (CSV/PDF)</td>
+                        <td>7 days</td>
+                        <td>Temporary download</td>
+                        <td>S3 Lifecycle Policy (auto-delete)</td>
+                    </tr>
+                    <tr>
+                        <td>Shared Links</td>
+                        <td>User-configured (default: 7 days)</td>
+                        <td>Collaboration</td>
+                        <td>S3 Lifecycle Policy</td>
+                    </tr>
+                    <tr>
+                        <td>Error Logs</td>
+                        <td>30 days</td>
+                        <td>Debugging</td>
+                        <td>CloudWatch Logs auto-expiry</td>
+                    </tr>
+                    <tr>
+                        <td>Customer DB Credentials</td>
+                        <td>Until connection deleted</td>
+                        <td>Active connections</td>
+                        <td>Immediate wipe from Vault on disconnect</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Data Formats -->
+        <div class="card">
+            <h2>📋 Storage Formats by Data Type</h2>
+
+            <div class="grid-2">
+                <div class="data-category">
+                    <h4>PostgreSQL (App Metadata)</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-bottom: 15px;">
+                        <strong>Format:</strong> Relational Tables (JSONB for flexible fields)<br>
+                        <strong>Encoding:</strong> UTF-8<br>
+                        <strong>Encryption:</strong> AES-256 at rest (AWS KMS)<br>
+                        <strong>Backup:</strong> Daily automated snapshots, 7-day retention<br>
+                        <strong>Example Schema:</strong>
+                    </p>
+                    <code style="display: block; padding: 15px; line-height: 1.6;">
+users (id, email, password_hash, tenant_id, created_at)<br>
+data_sources (id, user_id, type, host, credentials_ref)<br>
+queries (id, user_id, nl_text, sql_text, executed_at)
+                </code>
+                </div>
+
+                <div class="data-category">
+                    <h4>Redis (Cache & Sessions)</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-bottom: 15px;">
+                        <strong>Format:</strong> Key-Value pairs, JSON strings<br>
+                        <strong>Encoding:</strong> UTF-8<br>
+                        <strong>Persistence:</strong> AOF (Append-Only File) + RDB snapshots<br>
+                        <strong>TTL:</strong> All keys have expiration times<br>
+                        <strong>Example Keys:</strong>
+                    </p>
+                    <code style="display: block; padding: 15px; line-height: 1.6;">
+session:user_123 → JWT payload (7d TTL)<br>
+schema:db_xyz → Table metadata (24h TTL)<br>
+rate_limit:user_123 → Request count (1min TTL)
+                </code>
+                </div>
+
+                <div class="data-category">
+                    <h4>S3 (Exports & Reports)</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-bottom: 15px;">
+                        <strong>Formats:</strong> CSV, Excel (.xlsx), PDF, JSON<br>
+                        <strong>Encryption:</strong> SSE-S3 (AES-256 server-side)<br>
+                        <strong>Access:</strong> Pre-signed URLs (1-hour expiry)<br>
+                        <strong>Lifecycle:</strong> Standard → Glacier after 30 days → Delete after 90 days<br>
+                        <strong>Bucket Structure:</strong>
+                    </p>
+                    <code style="display: block; padding: 15px; line-height: 1.6;">
+s3://semantica-exports/<br>
+  ├── tenant_123/query_456/export.csv<br>
+  └── reports/monthly_2025_01.pdf
+                </code>
+                </div>
+
+                <div class="data-category">
+                    <h4>LanceDB (Vector Embeddings)</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem; margin-bottom: 15px;">
+                        <strong>Format:</strong> Parquet files (columnar)<br>
+                        <strong>Vectors:</strong> Float32 arrays (1536 dimensions for OpenAI)<br>
+                        <strong>Index:</strong> IVF (Inverted File Index) for fast search<br>
+                        <strong>Storage:</strong> ~6KB per embedding (text + vector)<br>
+                        <strong>Use Case:</strong> Semantic schema search
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security & Compliance -->
+        <div class="card">
+            <h2>🔒 Security & Encryption</h2>
+
+            <div class="alert-box">
+                <h4>✅ Data Protection Standards</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>Encryption at Rest:</strong><br>
+                    • PostgreSQL: AWS KMS managed keys (AES-256)<br>
+                    • Redis: AOF files encrypted via EBS volumes (AES-256)<br>
+                    • S3: SSE-S3 server-side encryption<br>
+                    • Secrets: HashiCorp Vault with auto-unseal (AWS KMS)<br><br>
+
+                    <strong>Encryption in Transit:</strong><br>
+                    • All connections use TLS 1.3<br>
+                    • Redis: TLS-enabled connections only<br>
+                    • RDS: Force SSL connections<br><br>
+
+                    <strong>Access Control:</strong><br>
+                    • PostgreSQL: Row-level security (RLS) by tenant_id<br>
+                    • S3: IAM policies + bucket policies (principle of least privilege)<br>
+                    • Secrets: Vault policies restrict access by service role<br>
+                    • All access logged to CloudTrail
+                </p>
+            </div>
+
+            <div class="alert-box warning">
+                <h4>⚠️ What We DON'T Store</h4>
+                <p style="color: #CBD5E1;">
+                    • Customer business data (sales, transactions, customer records)<br>
+                    • Raw database query results (only metadata: row count, column names)<br>
+                    • Database passwords in plaintext (always encrypted in Vault)<br>
+                    • Credit card details (handled by Stripe, PCI-DSS compliant)<br>
+                    • Personal identifying information beyond email
+                </p>
+            </div>
+        </div>
+
+        <!-- Cost Optimization -->
+        <div class="card">
+            <h2>📉 Cost Optimization Strategies</h2>
+
+            <div class="grid-2">
+                <div class="data-category">
+                    <h4>Caching Strategy</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem;">
+                        • Schema caching (24hr) reduces DB metadata queries by 95%<br>
+                        • Query result metadata cached (not data itself)<br>
+                        • Redis eviction policy: LRU (Least Recently Used)<br>
+                        • Estimated savings: ₹3,000/month in database load
+                    </p>
+                </div>
+
+                <div class="data-category">
+                    <h4>S3 Lifecycle Policies</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem;">
+                        • Auto-transition to Glacier after 30 days<br>
+                        • Auto-delete after 90 days<br>
+                        • Intelligent-Tiering for unpredictable access patterns<br>
+                        • Estimated savings: ₹2,000/month vs Standard-only
+                    </p>
+                </div>
+
+                <div class="data-category">
+                    <h4>Database Optimization</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem;">
+                        • Automated vacuum and analyze (PostgreSQL)<br>
+                        • Partition old query logs by month<br>
+                        • Archive to S3 Glacier after 90 days<br>
+                        • Estimated savings: 40% storage cost at scale
+                    </p>
+                </div>
+
+                <div class="data-category">
+                    <h4>CloudWatch Logs</h4>
+                    <p style="color: #CBD5E1; font-size: 0.9rem;">
+                        • 90-day retention (vs default 'Never Expire')<br>
+                        • Log only WARN and above in production<br>
+                        • Structured logging (JSON) for efficient queries<br>
+                        • Estimated savings: ₹1,500/month
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
