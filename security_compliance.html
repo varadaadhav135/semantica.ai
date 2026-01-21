@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantica - Security & Compliance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
+            color: #F0F4F8;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            top: -200px;
+            left: -200px;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 40px;
+            animation: headerFade 1s ease;
+        }
+
+        @keyframes headerFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            color: #6366f1;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cardFadeIn 0.6s ease backwards;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card.highlight {
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .badge-blue {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+
+        .badge-purple {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .cost-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94A3B8;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .cost-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .price {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #10b981;
+        }
+
+        .phase-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .phase-item {
+            margin-bottom: 40px;
+            position: relative;
+            animation: fadeIn 0.6s ease backwards;
+        }
+
+        .phase-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .phase-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .phase-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -44px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6366f1;
+            border: 4px solid #0A1929;
+            box-shadow: 0 0 0 2px #6366f1;
+        }
+
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1px;
+            top: 10px;
+            bottom: 0;
+            width: 2px;
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .check-icon {
+            color: #10b981;
+            flex-shrink: 0;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            color: #94A3B8;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: #F0F4F8;
+        }
+
+        .total-row td {
+            font-weight: 700;
+            color: #fff;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        .info-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid #6366f1;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="nav-back">← Back to Documentation Hub</a>
+
+        <header class="header">
+            <span class="section-title">Security & Trust Center</span>
+            <h1>Certification & Compliance Roadmap</h1>
+            <p style="color: #94A3B8; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+                Our strategic plan to achieve comprehensive security compliance, from mandatory Indian DPDP regulations
+                to global SOC 2 & ISO standards.
+            </p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>🛡️ Core Strategy: India First</h2>
+                <p style="color: #94A3B8; margin-bottom: 20px;">
+                    "Local Compliance First, Global Audit Later." Immediate focus on India's DPDP Act to avoid
+                    penalties, followed by global standards on demand.
+                </p>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    Priority 1: DPDP Act 2023 Compliance
+                </div>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    Priority 2: SOC 2 for large B2B deals
+                </div>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    Priority 3: ISO 27001 for Global Markets
+                </div>
+            </div>
+
+            <div class="card highlight">
+                <h2>✅ Implementation Verification</h2>
+                <p style="color: #94A3B8; margin-bottom: 20px;">
+                    How we prove security before any external audit certificate.
+                </p>
+                <div style="font-size: 0.9rem;">
+                    <strong>1. Encryption:</strong> RDS At-Rest (AWS KMS) + TLS 1.3 In-Transit<br>
+                    <strong>2. Audit Trails:</strong> CloudWatch Logs + App Query Logs (1yr)<br>
+                    <strong>3. Access:</strong> MFA Required, Role-Based Access Control (RBAC)<br>
+                    <strong>4. Code:</strong> OWASP Top 10 Scans in CI/CD Pipeline
+                </div>
+            </div>
+        </div>
+
+        <h2 style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 30px;">
+            Detailed Cost Breakdown by Market
+        </h2>
+
+        <div class="card" style="margin-bottom: 60px;">
+            <table class="cost-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Market / Category</th>
+                        <th style="width: 35%;">Item / Activity</th>
+                        <th style="width: 15%;">Timing</th>
+                        <th style="width: 15%;">Priority</th>
+                        <th style="width: 10%;">Cost (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4" style="color: #ef4444; font-weight: 700;">🇮🇳 INDIAN MARKET<br>(Mandatory)</td>
+                        <td>
+                            <strong>DPDP Act Compliance Docs</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">Privacy Notice (English + Regional),
+                                Consent Manager, DPA</span>
+                        </td>
+                        <td>Pre-Launch</td>
+                        <td>CRITICAL</td>
+                        <td class="price">₹50,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Product Grievance Setup</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">Appoint Grievance Officer, Published
+                                Mechanism</span>
+                        </td>
+                        <td>Pre-Launch</td>
+                        <td>CRITICAL</td>
+                        <td class="price">₹0 (Internal)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Indian Entity Registration</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">Private Limited, PAN, TAN, GST
+                                Registration</span>
+                        </td>
+                        <td>Pre-Launch</td>
+                        <td>CRITICAL</td>
+                        <td class="price">₹15,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Data Localization Check</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">Verify AWS Region is ap-south-1
+                                (Mumbai)</span>
+                        </td>
+                        <td>Pre-Launch</td>
+                        <td>CRITICAL</td>
+                        <td class="price">₹0</td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2" style="color: #8b5cf6; font-weight: 600;">Platform Security<br>(Built-in)</td>
+                        <td>
+                            <strong>AWS Security Tools</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">KMS Keys, WAF, GuardDuty (Monthly)</span>
+                        </td>
+                        <td>Monthly</td>
+                        <td>Technical</td>
+                        <td class="price">₹5,000<span style="font-size:0.7rem;color:#888">/mo</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Domain & SSL</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">Auto-renewing certificates via AWS</span>
+                        </td>
+                        <td>Annual</td>
+                        <td>Technical</td>
+                        <td class="price">₹1,200<span style="font-size:0.7rem;color:#888">/yr</span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="3" style="color: #6366f1; font-weight: 600;">🌍 GLOBAL MARKET<br>(On Demand)</td>
+                        <td>
+                            <strong>SOC 2 Type 1 Audit Fee</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">For US Enterprise Clients
+                                (Point-in-time)</span>
+                        </td>
+                        <td>Month 3</td>
+                        <td>High</td>
+                        <td class="price">₹6,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>SOC 2 Type 2 Audit Fee</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">6-Month Observation Period Audit</span>
+                        </td>
+                        <td>Month 9</td>
+                        <td>Medium</td>
+                        <td class="price">₹4,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>ISO 27001 Certification</strong><br>
+                            <span style="font-size: 0.8rem; color: #94A3B8;">For EU/Asia Markets</span>
+                        </td>
+                        <td>Month 12</td>
+                        <td>Medium</td>
+                        <td class="price">₹3,50,000</td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td>TOTAL LAUNCH BUDGET</td>
+                        <td colspan="3" style="color: #94A3B8;">Indian Market Compliance + Security features</td>
+                        <td class="price" style="color: #fff;">~₹70,000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                <strong>💡 Note:</strong> Launch costs are low (~₹70K). The heavy audit fees (₹13.5L+) are ONLY for
+                Global expansion and are deferred until you have revenue.
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 30px;">Certification Phases</h2>
+
+        <div class="phase-timeline">
+            <div class="phase-item">
+                <span class="badge badge-blue" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">Phase 1:
+                    India Launch (Mandatory)</span>
+                <h3>🇮🇳 Digital Personal Data Protection (DPDP) Act</h3>
+                <p style="color: #94A3B8; margin-top: 5px;">
+                    Avoids penalties up to ₹250 Crore. Required to operate legally in India.
+                </p>
+                <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+                        <strong style="color: #fff; display: block; margin-bottom: 10px;">Required Documents:</strong>
+                        <ul style="padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
+                            <li><strong>Privacy Notice:</strong> Itemized list of data collected (English + Regional).
+                            </li>
+                            <li><strong>Consent Artifacts:</strong> Digital logs of "affirmative action" consent.</li>
+                            <li><strong>Data Processing Agreement (DPA):</strong> Contract with clients.</li>
+                            <li><strong>Electronic Consent Form:</strong> "I withdraw consent" mechanism.</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+                        <strong style="color: #fff; display: block; margin-bottom: 10px;">Entity Documents:</strong>
+                        <ul style="padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
+                            <li>Certificate of Incorporation (CIN)</li>
+                            <li>PAN & TAN Cards</li>
+                            <li>GST Registration Certificate</li>
+                            <li>MSME Udyam Registration (Optional, for benefits)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phase-item">
+                <span class="badge badge-blue">Phase 2: Global Expansion (US Market)</span>
+                <h3>🇺🇸 SOC 2 Type 1 & Type 2</h3>
+                <p style="color: #94A3B8; margin-top: 5px;">
+                    The standard for US Enterprise SaaS. Proves security to clients.
+                </p>
+                <ul style="margin-top: 10px; padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
+                    <li><strong>Type 1 (Month 3):</strong> Check design of controls. For first big deals.</li>
+                    <li><strong>Type 2 (Month 9):</strong> Check 6-month operation. For scaling.</li>
+                    <li><strong>Evidence:</strong> CloudWatch Logs, Access Reviews, Employee background checks.</li>
+                </ul>
+            </div>
+
+            <div class="phase-item">
+                <span class="badge badge-green">Phase 3: International Standard (EU/Asia)</span>
+                <h3>🌍 ISO 27001 : 2022</h3>
+                <p style="color: #94A3B8; margin-top: 5px;">
+                    Formal certification for Europe and Asia.
+                </p>
+                <ul style="margin-top: 10px; padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
+                    <li>Formal ISMS (Information Security Management System)</li>
+                    <li>Internal Audit followed by External Certification Audit</li>
+                    <li>Valid for 3 years (with annual surveillance)</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
