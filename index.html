@@ -282,21 +282,7 @@
         </div>
 
         <div class="grid">
-            <!-- MVP to Production Roadmap -->
-            <a href="semantica_roadmap.html" class="card">
-                <div class="icon">
-                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
-                        </path>
-                    </svg>
-                </div>
-                <div class="card-title">MVP to Production Roadmap</div>
-                <div class="card-desc">Complete 4-week MVP plan with phased development (Phase 0-7), zero-migration AWS
-                    architecture, and weekly checklist.</div>
-            </a>
-
-            <!-- Competitive Strategy -->
+            <!-- 1. Competitive Strategy -->
             <a href="competitive_strategy.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -309,60 +295,7 @@
                     Labs, and ₹20Cr ARR go-to-market plan.</div>
             </a>
 
-            <!-- Complete Cost Breakdown -->
-            <a href="complete_cost_breakdown.html" class="card">
-                <div class="icon">
-                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                        </path>
-                    </svg>
-                </div>
-                <div class="card-title">Complete Cost Breakdown</div>
-                <div class="card-desc">Unified MVP and Production costs, unit economics (₹3.48/query), and pricing
-                    recommendations (₹999-₹10K/mo). Year 1 Total: ₹18.2L.</div>
-            </a>
-
-            <!-- AI Architecture & Strategy -->
-            <a href="ai_architecture_strategy.html" class="card">
-                <div class="icon">
-                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                </div>
-                <div class="card-title">AI Architecture & Strategy</div>
-                <div class="card-desc">4-agent LangGraph system (Schema, Clarification, SQL Gen, Formatter), multi-model
-                    routing (GPT-4o/mini, Claude), ₹2.7L/year AI cost.</div>
-            </a>
-
-            <!-- Tech Stack & Implementation -->
-            <a href="technical_stack_implementation.html" class="card">
-                <div class="icon">
-                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4">
-                        </path>
-                    </svg>
-                </div>
-                <div class="card-title">Tech Stack & Implementation</div>
-                <div class="card-desc">FastAPI + Next.js + PostgreSQL + Redis architecture, LLM routing strategy,
-                    containerized deployment with ECS Fargate.</div>
-            </a>
-
-            <!-- Query Flow Architecture -->
-            <a href="query_flow_detailed.html" class="card">
-                <div class="icon">
-                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
-                    </svg>
-                </div>
-                <div class="card-title">Query Flow Architecture</div>
-                <div class="card-desc">Visual journey: NL input → Schema retrieval → SQL generation → Execution → Format
-                    decision. Metrics: 2.5s latency, 96% accuracy, ₹3.48/query.</div>
-            </a>
-
-            <!-- Database Connection Methods -->
+            <!-- 2. Database Connection Methods -->
             <a href="db_connection.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -376,7 +309,7 @@
                     Snowflake, BigQuery, Salesforce, REST APIs.</div>
             </a>
 
-            <!-- Zero-Cost DB Strategies -->
+            <!-- 3. Zero-Cost DB Strategies -->
             <a href="zero_cost_db_connections.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -390,7 +323,19 @@
                     extension. Leverage customer credentials.</div>
             </a>
 
-            <!-- Data Architecture & Storage -->
+            <!-- 4. Query Flow Architecture -->
+            <a href="query_flow_detailed.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+                <div class="card-title">Query Flow Architecture</div>
+                <div class="card-desc">Visual journey: NL input → Schema retrieval → SQL generation → Execution → Format
+                    decision. Metrics: 2.5s latency, 96% accuracy, ₹3.48/query.</div>
+            </a>
+
+            <!-- 5. Data Architecture & Storage -->
             <a href="data_architecture.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -404,7 +349,34 @@
                     cache, S3 exports, retention policies, AES-256 encryption.</div>
             </a>
 
-            <!-- Monitoring & Observability -->
+            <!-- 6. Tech Stack & Implementation -->
+            <a href="technical_stack_implementation.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Tech Stack & Implementation</div>
+                <div class="card-desc">FastAPI + Next.js + PostgreSQL + Redis architecture, LLM routing strategy,
+                    containerized deployment with ECS Fargate.</div>
+            </a>
+
+            <!-- 7. AI Architecture & Strategy -->
+            <a href="ai_architecture_strategy.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">AI Architecture & Strategy</div>
+                <div class="card-desc">4-agent LangGraph system (Schema, Clarification, SQL Gen, Formatter), multi-model
+                    routing (GPT-4o/mini, Claude), ₹2.7L/year AI cost.</div>
+            </a>
+
+            <!-- 8. Monitoring & Observability -->
             <a href="monitoring_observability.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -418,7 +390,7 @@
                     uptime SLA, ₹21K/mo monitoring cost.</div>
             </a>
 
-            <!-- Security & Compliance -->
+            <!-- 9. Security & Compliance -->
             <a href="security_compliance.html" class="card">
                 <div class="icon">
                     <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -431,10 +403,24 @@
                 <div class="card-desc">India-first: DPDP Act (₹70K mandatory). Global: SOC 2 Type 2 (₹4L), ISO 27001
                     (₹3.5L) deferred until revenue justifies.</div>
             </a>
+
+            <!-- 10. Complete Cost Breakdown -->
+            <a href="complete_cost_breakdown.html" class="card">
+                <div class="icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="card-title">Complete Cost Breakdown</div>
+                <div class="card-desc">Unified MVP and Production costs, unit economics (₹3.48/query), and pricing
+                    recommendations (₹999-₹10K/mo). Year 1 Total: ₹18.2L.</div>
+            </a>
         </div>
 
         <footer>
-            © 2026 Semantica.ai | Documentation Hub | 12 Pages
+            © 2026 Semantica.ai | Documentation Hub | 10 Pages
         </footer>
     </div>
 </body>
