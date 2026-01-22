@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semantica - Security & Compliance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Semantica.ai - MVP to Production Roadmap</title>
     <style>
         * {
             margin: 0;
@@ -14,554 +13,1180 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: linear-gradient(135deg, #0A1929 0%, #1a2332 100%);
             color: #F0F4F8;
-            line-height: 1.6;
-            position: relative;
             overflow-x: hidden;
         }
 
-        /* Animated background orbs */
-        body::before,
-        body::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.15;
-            pointer-events: none;
-            animation: float 20s ease-in-out infinite;
-        }
-
-        body::before {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, #6366f1, transparent);
-            top: -200px;
-            left: -200px;
-        }
-
-        body::after {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #8b5cf6, transparent);
-            bottom: -150px;
-            right: -150px;
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
-
         .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
             text-align: center;
-            margin-bottom: 60px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 40px;
-            animation: headerFade 1s ease;
-        }
-
-        @keyframes headerFade {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            border-bottom: 2px solid rgba(211, 175, 55, 0.3);
         }
 
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #D4AF37 0%, #6366F1 100%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .section-title {
-            color: #6366f1;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 600;
             margin-bottom: 10px;
-            display: block;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: cardFadeIn 0.6s ease backwards;
-        }
-
-        @keyframes cardFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card.highlight {
-            border: 1px solid rgba(99, 102, 241, 0.5);
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .badge-green {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .badge-blue {
-            background: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
-        }
-
-        .badge-purple {
-            background: rgba(139, 92, 246, 0.2);
-            color: #8b5cf6;
-        }
-
-        .cost-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .cost-table th {
-            text-align: left;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .subtitle {
             color: #94A3B8;
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 1.1em;
         }
 
-        .cost-table td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
         }
 
-        .price {
-            font-family: monospace;
-            font-size: 1.1rem;
-            color: #10b981;
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(211, 175, 55, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
         }
 
-        .phase-timeline {
-            position: relative;
-            padding-left: 40px;
+        .tab:hover {
+            background: rgba(211, 175, 55, 0.1);
+            transform: translateY(-2px);
         }
 
-        .phase-item {
-            margin-bottom: 40px;
-            position: relative;
-            animation: fadeIn 0.6s ease backwards;
+        .tab.active {
+            background: linear-gradient(135deg, #D4AF37 0%, #6366F1 100%);
+            border-color: #D4AF37;
         }
 
-        .phase-item:nth-child(1) {
-            animation-delay: 0.1s;
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
         }
 
-        .phase-item:nth-child(2) {
-            animation-delay: 0.2s;
+        .phase {
+            display: none;
+            animation: fadeIn 0.4s;
         }
 
-        .phase-item:nth-child(3) {
-            animation-delay: 0.3s;
+        .phase.active {
+            display: block;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateX(-20px);
+                transform: translateY(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
 
-        .phase-item::before {
-            content: '';
-            position: absolute;
-            left: -44px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
+        .phase-header {
+            background: linear-gradient(135deg, rgba(211, 175, 55, 0.2), rgba(99, 102, 241, 0.2));
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(211, 175, 55, 0.3);
+        }
+
+        .phase-title {
+            font-size: 2.2em;
+            color: #D4AF37;
+            margin-bottom: 15px;
+        }
+
+        .phase-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .meta-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .meta-label {
+            color: #94A3B8;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #10B981;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #6366F1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .deliverable {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 3px solid #6366F1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .deliverable-title {
+            font-weight: 600;
+            color: #6366F1;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .deliverable-desc {
+            color: #CBD5E1;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #10B981;
+            overflow-x: auto;
+            margin-top: 10px;
+            white-space: pre;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10B981;
+            border-radius: 4px;
+        }
+
+        .checklist li:before {
+            content: "✓ ";
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(211, 175, 55, 0.2);
+            color: #D4AF37;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin: 3px;
+            font-weight: 500;
+        }
+
+        .badge.green {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+        }
+
+        .badge.red {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #D4AF37, #6366F1);
             border-radius: 50%;
-            background: #6366f1;
-            border: 4px solid #0A1929;
-            box-shadow: 0 0 0 2px #6366f1;
-        }
-
-        .phase-timeline::before {
-            content: '';
-            position: absolute;
-            left: 1px;
-            top: 10px;
-            bottom: 0;
-            width: 2px;
-            background: rgba(99, 102, 241, 0.3);
-        }
-
-        .checklist-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-
-        .check-icon {
-            color: #10b981;
+            justify-content: center;
+            font-weight: bold;
             flex-shrink: 0;
         }
 
-        .nav-back {
-            display: inline-flex;
-            align-items: center;
-            color: #94A3B8;
-            text-decoration: none;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            transition: color 0.3s;
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
         }
 
-        .nav-back:hover {
-            color: #F0F4F8;
-        }
-
-        .total-row td {
-            font-weight: 700;
-            color: #fff;
-            border-top: 2px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-        }
-
-        .info-box {
-            background: rgba(99, 102, 241, 0.1);
-            border-left: 4px solid #6366f1;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.9rem;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .grid {
+            .grid-2 {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table th {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366F1;
+            font-weight: 600;
+        }
+
+        .accordion {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 15px;
+            cursor: pointer;
+            background: rgba(99, 102, 241, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 15px;
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+            padding: 15px;
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #EF4444;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10B981;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(211, 175, 55, 0.1), rgba(99, 102, 241, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(211, 175, 55, 0.3);
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #D4AF37;
+        }
+
+        .metric-label {
+            color: #94A3B8;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <a href="monitoring_observability.html" class="nav-back" style="margin-bottom: 0;">← Prev: Monitoring</a>
-            <a href="index.html" class="nav-back" style="margin-bottom: 0;">🏠 Home</a>
-            <a href="complete_cost_breakdown.html" class="nav-back" style="margin-bottom: 0;">Next: Cost Breakdown →</a>
-        </div>
-
-        <header class="header">
-            <span class="section-title">Security & Trust Center</span>
-            <h1>Certification & Compliance Roadmap</h1>
-            <p style="color: #94A3B8; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
-                Our strategic plan to achieve comprehensive security compliance, from mandatory Indian DPDP regulations
-                to global SOC 2 & ISO standards.
-            </p>
-        </header>
-
-        <div class="grid">
-            <div class="card">
-                <h2>🛡️ Core Strategy: India First</h2>
-                <p style="color: #94A3B8; margin-bottom: 20px;">
-                    "Local Compliance First, Global Audit Later." Immediate focus on India's DPDP Act to avoid
-                    penalties, followed by global standards on demand.
-                </p>
-                <div class="checklist-item">
-                    <span class="check-icon">✓</span>
-                    Priority 1: DPDP Act 2023 Compliance
-                </div>
-                <div class="checklist-item">
-                    <span class="check-icon">✓</span>
-                    Priority 2: SOC 2 for large B2B deals
-                </div>
-                <div class="checklist-item">
-                    <span class="check-icon">✓</span>
-                    Priority 3: ISO 27001 for Global Markets
-                </div>
-            </div>
-
-            <div class="card highlight">
-                <h2>✅ Implementation Verification</h2>
-                <p style="color: #94A3B8; margin-bottom: 20px;">
-                    How we prove security before any external audit certificate.
-                </p>
-                <div style="font-size: 0.9rem;">
-                    <strong>1. Encryption:</strong> RDS At-Rest (AWS KMS) + TLS 1.3 In-Transit<br>
-                    <strong>2. Audit Trails:</strong> CloudWatch Logs + App Query Logs (1yr)<br>
-                    <strong>3. Access:</strong> MFA Required, Role-Based Access Control (RBAC)<br>
-                    <strong>4. Code:</strong> OWASP Top 10 Scans in CI/CD Pipeline
-                </div>
-            </div>
-        </div>
-
-        <h2 style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 30px;">
-            Detailed Cost Breakdown by Market
-        </h2>
-
-        <div class="card" style="margin-bottom: 60px;">
-            <table class="cost-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">Market / Category</th>
-                        <th style="width: 35%;">Item / Activity</th>
-                        <th style="width: 15%;">Timing</th>
-                        <th style="width: 15%;">Priority</th>
-                        <th style="width: 10%;">Cost (INR)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="4" style="color: #ef4444; font-weight: 700;">🇮🇳 INDIAN MARKET<br>(Mandatory)</td>
-                        <td>
-                            <strong>DPDP Act Compliance Docs</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">Privacy Notice (English + Regional),
-                                Consent Manager, DPA</span>
-                        </td>
-                        <td>Pre-Launch</td>
-                        <td>CRITICAL</td>
-                        <td class="price">₹50,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Product Grievance Setup</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">Appoint Grievance Officer, Published
-                                Mechanism</span>
-                        </td>
-                        <td>Pre-Launch</td>
-                        <td>CRITICAL</td>
-                        <td class="price">₹0 (Internal)</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Indian Entity Registration</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">Private Limited, PAN, TAN, GST
-                                Registration</span>
-                        </td>
-                        <td>Pre-Launch</td>
-                        <td>CRITICAL</td>
-                        <td class="price">₹15,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Data Localization Check</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">Verify AWS Region is ap-south-1
-                                (Mumbai)</span>
-                        </td>
-                        <td>Pre-Launch</td>
-                        <td>CRITICAL</td>
-                        <td class="price">₹0</td>
-                    </tr>
-
-                    <tr>
-                        <td rowspan="2" style="color: #8b5cf6; font-weight: 600;">Platform Security<br>(Built-in)</td>
-                        <td>
-                            <strong>AWS Security Tools</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">KMS Keys, WAF, GuardDuty (Monthly)</span>
-                        </td>
-                        <td>Monthly</td>
-                        <td>Technical</td>
-                        <td class="price">₹5,000<span style="font-size:0.7rem;color:#888">/mo</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Domain & SSL</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">Auto-renewing certificates via AWS</span>
-                        </td>
-                        <td>Annual</td>
-                        <td>Technical</td>
-                        <td class="price">₹1,200<span style="font-size:0.7rem;color:#888">/yr</span></td>
-                    </tr>
-
-                    <tr>
-                        <td rowspan="3" style="color: #6366f1; font-weight: 600;">🌍 GLOBAL MARKET<br>(On Demand)</td>
-                        <td>
-                            <strong>SOC 2 Type 1 Audit Fee</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">For US Enterprise Clients
-                                (Point-in-time)</span>
-                        </td>
-                        <td>Month 3</td>
-                        <td>High</td>
-                        <td class="price">₹6,00,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>SOC 2 Type 2 Audit Fee</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">6-Month Observation Period Audit</span>
-                        </td>
-                        <td>Month 9</td>
-                        <td>Medium</td>
-                        <td class="price">₹4,00,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>ISO 27001 Certification</strong><br>
-                            <span style="font-size: 0.8rem; color: #94A3B8;">For EU/Asia Markets</span>
-                        </td>
-                        <td>Month 12</td>
-                        <td>Medium</td>
-                        <td class="price">₹3,50,000</td>
-                    </tr>
-
-                    <tr class="total-row">
-                        <td>TOTAL LAUNCH BUDGET</td>
-                        <td colspan="3" style="color: #94A3B8;">Indian Market Compliance + Security features</td>
-                        <td class="price" style="color: #fff;">~₹70,000</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="info-box">
-                <strong>💡 Note:</strong> Launch costs are low (~₹70K). The heavy audit fees (₹13.5L+) are ONLY for
-                Global expansion and are deferred until you have revenue.
-            </div>
-        </div>
-
-        <h2 style="margin-bottom: 30px;">Certification Phases</h2>
-
-        <div class="phase-timeline">
-            <div class="phase-item">
-                <span class="badge badge-blue" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">Phase 1:
-                    India Launch (Mandatory)</span>
-                <h3>🇮🇳 Digital Personal Data Protection (DPDP) Act</h3>
-                <p style="color: #94A3B8; margin-top: 5px;">
-                    Avoids penalties up to ₹250 Crore. Required to operate legally in India.
-                </p>
-                <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
-                        <strong style="color: #fff; display: block; margin-bottom: 10px;">Required Documents:</strong>
-                        <ul style="padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
-                            <li><strong>Privacy Notice:</strong> Itemized list of data collected (English + Regional).
-                            </li>
-                            <li><strong>Consent Artifacts:</strong> Digital logs of "affirmative action" consent.</li>
-                            <li><strong>Data Processing Agreement (DPA):</strong> Contract with clients.</li>
-                            <li><strong>Electronic Consent Form:</strong> "I withdraw consent" mechanism.</li>
-                        </ul>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
-                        <strong style="color: #fff; display: block; margin-bottom: 10px;">Entity Documents:</strong>
-                        <ul style="padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
-                            <li>Certificate of Incorporation (CIN)</li>
-                            <li>PAN & TAN Cards</li>
-                            <li>GST Registration Certificate</li>
-                            <li>MSME Udyam Registration (Optional, for benefits)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="phase-item">
-                <span class="badge badge-blue">Phase 2: Global Expansion (US Market)</span>
-                <h3>🇺🇸 SOC 2 Type 1 & Type 2</h3>
-                <p style="color: #94A3B8; margin-top: 5px;">
-                    The standard for US Enterprise SaaS. Proves security to clients.
-                </p>
-                <ul style="margin-top: 10px; padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
-                    <li><strong>Type 1 (Month 3):</strong> Check design of controls. For first big deals.</li>
-                    <li><strong>Type 2 (Month 9):</strong> Check 6-month operation. For scaling.</li>
-                    <li><strong>Evidence:</strong> CloudWatch Logs, Access Reviews, Employee background checks.</li>
-                </ul>
-            </div>
-
-            <div class="phase-item">
-                <span class="badge badge-green">Phase 3: International Standard (EU/Asia)</span>
-                <h3>🌍 ISO 27001 : 2022</h3>
-                <p style="color: #94A3B8; margin-top: 5px;">
-                    Formal certification for Europe and Asia.
-                </p>
-                <ul style="margin-top: 10px; padding-left: 20px; color: #94A3B8; font-size: 0.9rem;">
-                    <li>Formal ISMS (Information Security Management System)</li>
-                    <li>Internal Audit followed by External Certification Audit</li>
-                    <li>Valid for 3 years (with annual surveillance)</li>
-                </ul>
-            </div>
-        </div>
-
+    <div class="content" style="padding-top: 20px; padding-bottom: 0;">
+        <a href="index.html"
+            style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
+            <span style="margin-right: 5px;">←</span> Back to Home
+        </a>
     </div>
 
+    <div class="header">
+        <h1>🚀 Semantica.ai Development Roadmap</h1>
+        <p class="subtitle">From MVP to Production - CTO Plan</p>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="tab active" data-tab="overview">📊 Overview</div>
+        <div class="tab" data-tab="mvp">🎯 MVP (Weeks 1-4)</div>
+        <div class="tab" data-tab="phase0">🏗️ Phase 0</div>
+        <div class="tab" data-tab="phase1">🔐 Phase 1</div>
+        <div class="tab" data-tab="phase2">⚡ Phase 2</div>
+        <div class="tab" data-tab="phase3">📊 Phase 3-7</div>
+        <div class="tab" data-tab="deployment">☁️ Deployment</div>
+        <div class="tab" data-tab="team">👥 Team & Budget</div>
+    </div>
+
+    <div class="content">
+        <!-- OVERVIEW -->
+        <div class="phase active" id="overview">
+            <div class="phase-header">
+                <h2 class="phase-title">Strategic Overview</h2>
+                <p style="font-size: 1.1em; color: #CBD5E1; margin-top: 10px;">
+                    Same codebase, same stack from MVP to 100K users. No rewrites, only additions.
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <div class="metric-card">
+                    <div class="metric-value">3-4 Weeks</div>
+                    <div class="metric-label">MVP Timeline</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">₹700/mo</div>
+                    <div class="metric-label">MVP Infrastructure Cost</div>
+                </div>
+            </div>
+
+            <div class="section" style="margin-top: 30px;">
+                <h3 class="section-title">Success Metrics by Phase</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Users</th>
+                            <th>Queries/Day</th>
+                            <th>Infra Cost</th>
+                            <th>Revenue Goal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MVP</strong></td>
+                            <td>5-10 (internal)</td>
+                            <td>50-100</td>
+                            <td>₹500/mo</td>
+                            <td>₹0 (validation)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1</strong></td>
+                            <td>10-25 (beta)</td>
+                            <td>200-500</td>
+                            <td>₹1,000/mo</td>
+                            <td>₹25K/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2</strong></td>
+                            <td>50-100 (launch)</td>
+                            <td>1K-2K</td>
+                            <td>₹5K/mo</td>
+                            <td>₹125K/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 3</strong></td>
+                            <td>100-500 (growth)</td>
+                            <td>5K-10K</td>
+                            <td>₹15K/mo</td>
+                            <td>₹500K/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 4</strong></td>
+                            <td>500-2K (scale)</td>
+                            <td>20K+</td>
+                            <td>₹30K/mo</td>
+                            <td>₹2M+/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Core Philosophy</h3>
+                <div class="deliverable">
+                    <div class="deliverable-title">🎯 Same Stack, Zero Migration</div>
+                    <div class="deliverable-desc">
+                        Identical codebase from 10 users to 100,000 users. No platform changes, no rewrites.
+                        Only configuration and scale adjustments.
+                    </div>
+                </div>
+                <div class="deliverable">
+                    <div class="deliverable-title">🔌 Plugin Architecture</div>
+                    <div class="deliverable-desc">
+                        Add features without touching existing code. New agents, connectors, and visualizations
+                        slot in seamlessly.
+                    </div>
+                </div>
+                <div class="deliverable">
+                    <div class="deliverable-title">⚡ Ship Fast, Iterate Faster</div>
+                    <div class="deliverable-desc">
+                        4-week MVP is aggressive but achievable. Dogfood internally from Week 2 onwards.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Success Validation Gates</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <strong style="color: #D4AF37;">Gate 1: MVP Launch (Week 4)</strong>
+                            <ul class="checklist" style="margin-top: 10px;">
+                                <li>3 internal users query successfully 10 times/day</li>
+                                <li>Zero crashes for 72 hours straight</li>
+                                <li>Avg query response time < 3 seconds</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <strong style="color: #D4AF37;">Gate 2: Beta Launch (Month 2)</strong>
+                            <ul class="checklist" style="margin-top: 10px;">
+                                <li>10 external beta users signed up</li>
+                                <li>50% DAU (5 daily active users)</li>
+                                <li>At least 1 user says "I'd pay for this"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <strong style="color: #D4AF37;">Gate 3: Paid Launch (Month 3)</strong>
+                            <ul class="checklist" style="margin-top: 10px;">
+                                <li>3 paying customers (₹2,500/user/month)</li>
+                                <li>₹7,500 MRR</li>
+                                <li>Infrastructure costs < 30% of revenue</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MVP SCOPE -->
+        <div class="phase" id="mvp">
+            <div class="phase-header">
+                <h2 class="phase-title">MVP Scope (Weeks 1-4)</h2>
+                <div class="phase-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Timeline</div>
+                        <div class="meta-value">3-4 Weeks</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Cost</div>
+                        <div class="meta-value">₹700/mo</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Users</div>
+                        <div class="meta-value">3-10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="section">
+                    <h3 class="section-title">✅ Must-Have Features</h3>
+                    <ul class="checklist">
+                        <li>Email/password authentication only</li>
+                        <li>PostgreSQL connection only</li>
+                        <li>Natural language to SQL generation</li>
+                        <li>Results displayed as table</li>
+                        <li>Basic SQL validation (block DELETE, DROP)</li>
+                        <li>Row limit enforced (1000 rows max)</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">❌ NOT in MVP</h3>
+                    <div class="warning">
+                        <strong>Explicitly Excluded:</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Multiple database types (MongoDB, Snowflake)</li>
+                            <li>Multiple agents (RAG, Data Scientist)</li>
+                            <li>Charts/visualizations</li>
+                            <li>Export to CSV/PDF</li>
+                            <li>Query history</li>
+                            <li>Advanced security (Vault, PII masking)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">MVP Success Criteria</h3>
+                <div class="success">
+                    <strong style="font-size: 1.2em; color: #10B981;">
+                        "3 internal users can query our own Postgres database 10 times/day without errors"
+                    </strong>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Weekly Breakdown</h3>
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <strong>Week 1: Foundation Setup</strong>
+                        <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li>Docker compose running (Postgres x2)</li>
+                            <li>Sample databases seeded with test data</li>
+                            <li>FastAPI `/health` endpoint responds</li>
+                            <li>Next.js shows login page at localhost:3000</li>
+                            <li>GitHub CI/CD pipeline passing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <strong>Week 2: Auth & Database Connection</strong>
+                        <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li>Signup/login working with JWT</li>
+                            <li>"Add Database" form UI complete</li>
+                            <li>"Test Connection" endpoint validates connectivity</li>
+                            <li>Connections saved to database (base64 encrypted)</li>
+                            <li>User sees list of connected databases</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <strong>Week 3: Query Engine Part 1</strong>
+                        <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li>LangGraph workflow defined</li>
+                            <li>Schema fetching from Postgres works</li>
+                            <li>SQL generation tested (hardcoded examples)</li>
+                            <li>SQL validator blocks dangerous keywords</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <strong>Week 4: Query Engine Part 2 + Deploy</strong>
+                        <span>▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="checklist">
+                            <li>End-to-end query flow works (NL → SQL → Results)</li>
+                            <li>Results display as interactive table</li>
+                            <li>Railway deployment successful</li>
+                            <li>3 colleagues testing in production</li>
+                            <li><strong style="color: #10B981;">🚀 MVP SHIPPED!</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 0 -->
+        <div class="phase" id="phase0">
+            <div class="phase-header">
+                <h2 class="phase-title">Phase 0: Foundation Setup (Week 1)</h2>
+                <p style="color: #CBD5E1; margin-top: 10px;">
+                    Set up development environment, project structure, and CI/CD pipeline
+                </p>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Infrastructure</h3>
+                <div class="code-block">Environment: Local Development
+                    - Docker Compose with:
+                    - Postgres (app metadata)
+                    - Test Postgres (sample customer data)</div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Key Deliverables</h3>
+
+                <div class="deliverable">
+                    <div class="deliverable-title">1. Project Scaffolding</div>
+                    <div class="deliverable-desc">Complete folder structure for backend and frontend</div>
+                    <div class="code-block">backend/
+                        ├── main.py # FastAPI app entry
+                        ├── requirements.txt # Python dependencies
+                        ├── Dockerfile # Container definition
+                        ├── config/
+                        │ └── settings.py # App configuration
+                        ├── models/
+                        │ └── database.py # SQLAlchemy models
+                        ├── routes/
+                        │ ├── auth.py # Login/signup endpoints
+                        │ └── query.py # Query execution endpoint
+                        └── services/
+                        ├── auth_service.py # JWT generation/validation
+                        └── db_connector.py # Database connection logic</div>
+                </div>
+
+                <div class="deliverable">
+                    <div class="deliverable-title">2. Database Schema Design</div>
+                    <div class="deliverable-desc">Core tables for app metadata (users, data_sources, queries)</div>
+                    <div class="code-block">CREATE TABLE users (
+                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        email VARCHAR(255) UNIQUE NOT NULL,
+                        password_hash VARCHAR(255) NOT NULL,
+                        created_at TIMESTAMP DEFAULT NOW()
+                        );
+
+                        CREATE TABLE data_sources (
+                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                        user_id UUID REFERENCES users(id),
+                        name VARCHAR(255) NOT NULL,
+                        db_type VARCHAR(50) DEFAULT 'postgresql',
+                        host VARCHAR(255),
+                        port INTEGER,
+                        database_name VARCHAR(255),
+                        username VARCHAR(255),
+                        password_encrypted TEXT,
+                        created_at TIMESTAMP DEFAULT NOW()
+                        );</div>
+                </div>
+
+                <div class="deliverable">
+                    <div class="deliverable-title">3. Docker Compose Setup</div>
+                    <div class="code-block">version: '3.8'
+                        services:
+                        app_db:
+                        image: postgres:15-alpine
+                        environment:
+                        POSTGRES_DB: semantica_app
+                        POSTGRES_USER: admin
+                        POSTGRES_PASSWORD: password
+                        ports:
+                        - "5432:5432"
+
+                        test_customer_db:
+                        image: postgres:15-alpine
+                        environment:
+                        POSTGRES_DB: test_customer
+                        POSTGRES_USER: readonly
+                        POSTGRES_PASSWORD: readonly123
+                        ports:
+                        - "5433:5432"</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">✅ Phase 0 Done When:</h3>
+                <ul class="checklist">
+                    <li><code>docker-compose up</code> starts both databases</li>
+                    <li>Backend responds to <code>/health</code> endpoint</li>
+                    <li>Frontend shows login page at <code>localhost:3000</code></li>
+                    <li>Can create user via Postman/curl</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PHASE 1 -->
+        <div class="phase" id="phase1">
+            <div class="phase-header">
+                <h2 class="phase-title">Phase 1: Auth & DB Connection (Week 2)</h2>
+                <p style="color: #CBD5E1; margin-top: 10px;">
+                    Users can sign up, log in, and connect their first Postgres database
+                </p>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Authentication System</h3>
+                <div class="deliverable">
+                    <div class="deliverable-title">Backend: Auth Service</div>
+                    <div class="code-block">class AuthService:
+                        def register_user(self, email: str, password: str):
+                        password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+                        user = User(email=email, password_hash=password_hash)
+                        db.add(user)
+                        db.commit()
+                        return user
+
+                        def login(self, email: str, password: str):
+                        user = db.query(User).filter(User.email == email).first()
+
+                        if not user or not bcrypt.checkpw(password.encode(), user.password_hash):
+                        raise ValueError("Invalid credentials")
+
+                        token = jwt.encode({
+                        'user_id': str(user.id),
+                        'exp': datetime.utcnow() + timedelta(days=1)
+                        }, SECRET_KEY, algorithm='HS256')
+
+                        return {'token': token, 'user': user}</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Database Connection Flow</h3>
+                <div class="deliverable">
+                    <div class="deliverable-title">UI Flow</div>
+                    <div class="deliverable-desc">
+                        1. User clicks "Add Data Source"<br>
+                        2. Form with fields: Host, Port, Database Name, Username, Password<br>
+                        3. "Test Connection" validates connectivity<br>
+                        4. If successful, "Save" button enables<br>
+                        5. Connection stored encrypted
+                    </div>
+                </div>
+
+                <div class="deliverable">
+                    <div class="deliverable-title">Backend: Database Connector</div>
+                    <div class="code-block">def test_connection(self, host, port, database, username, password):
+                        try:
+                        connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+                        engine = create_engine(connection_string, connect_args={'connect_timeout': 5})
+
+                        with engine.connect() as conn:
+                        result = conn.execute("SELECT 1")
+
+                        # Check if user has write permissions (should fail!)
+                        try:
+                        with engine.connect() as conn:
+                        conn.execute("CREATE TEMP TABLE test_write (id int)")
+                        return {"status": "error", "message": "User has WRITE permissions!"}
+                        except:
+                        pass # Good, read-only confirmed
+
+                        return {"status": "success", "message": "Connection successful"}
+                        except Exception as e:
+                        return {"status": "error", "message": str(e)}</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">✅ Phase 1 Done When:</h3>
+                <ul class="checklist">
+                    <li>User can signup with email/password</li>
+                    <li>User can login and receive JWT token</li>
+                    <li>User can add Postgres connection via UI</li>
+                    <li>"Test Connection" button validates connectivity</li>
+                    <li>Connection credentials stored (base64 encrypted)</li>
+                    <li>User sees list of their connected databases</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="phase" id="phase2">
+            <div class="phase-header">
+                <h2 class="phase-title">Phase 2: Query Engine (Weeks 3-4)</h2>
+                <p style="color: #CBD5E1; margin-top: 10px;">
+                    Users can type natural language query and get SQL results as a table
+                </p>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">LangGraph Query Workflow</h3>
+                <div class="deliverable">
+                    <div class="deliverable-title">Agent Setup</div>
+                    <div class="code-block">from langgraph.graph import StateGraph
+
+                        workflow = StateGraph(QueryState)
+
+                        def supervisor_node(state: QueryState):
+                        """Analyze intent and route"""
+                        prompt = f"User query: {state['user_query']}"
+                        response = llm.invoke(prompt)
+                        state['intent'] = response.content
+                        return state
+
+                        def sql_agent_node(state: QueryState):
+                        """Generate SQL from natural language"""
+                        prompt = f"""
+                        Generate PostgreSQL query for: {state['user_query']}
+
+                        Available schema: {state['schema_context']}
+
+                        Rules:
+                        - Only SELECT queries allowed
+                        - Add LIMIT 1000 if not specified
+                        """
+                        response = llm.invoke(prompt)
+                        state['generated_sql'] = response.content.strip()
+                        return state
+
+                        workflow.add_node("supervisor", supervisor_node)
+                        workflow.add_node("sql_agent", sql_agent_node)
+                        workflow.add_edge("supervisor", "sql_agent")
+                        app = workflow.compile()</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Complete Query Flow</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <strong>Fetch Schema</strong><br>
+                            Get table and column information from connected database
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <strong>Generate SQL</strong><br>
+                            LangGraph workflow converts NL to SQL using schema context
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <strong>Validate SQL</strong><br>
+                            Check for dangerous keywords, enforce row limits
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">4</div>
+                        <div class="timeline-content">
+                            <strong>Execute Query</strong><br>
+                            Run on customer database, return results
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <div class="timeline-content">
+                            <strong>Display Results</strong><br>
+                            Render as interactive table in frontend
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">✅ Phase 2 (MVP) Done When:</h3>
+                <ul class="checklist">
+                    <li>User types "Show all products" → sees table of products</li>
+                    <li>Generated SQL is displayed</li>
+                    <li>Results show in clean table format</li>
+                    <li>SQL validator blocks "DELETE FROM users"</li>
+                    <li>Query limit enforced (max 1000 rows)</li>
+                    <li><strong>🚀 3 internal users can use it successfully</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PHASES 3-7 -->
+        <div class="phase" id="phase3">
+            <div class="phase-header">
+                <h2 class="phase-title">Phases 3-7: Post-MVP Features</h2>
+                <p style="color: #CBD5E1; margin-top: 10px;">
+                    Iterative feature additions after MVP validation
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <div class="section">
+                    <h3 class="section-title">Phase 3: Multi-DB Support</h3>
+                    <span class="badge">2-3 weeks</span>
+                    <ul class="checklist" style="margin-top: 15px;">
+                        <li>MySQL connector</li>
+                        <li>MongoDB connector (MQL generation)</li>
+                        <li>Snowflake connector</li>
+                        <li>Dynamic connector registry</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Phase 4: Viz & Export</h3>
+                    <span class="badge">2-3 weeks</span>
+                    <ul class="checklist" style="margin-top: 15px;">
+                        <li>Viz Agent (chart type selection)</li>
+                        <li>Bar, line, pie charts</li>
+                        <li>Export to CSV, Excel</li>
+                        <li>Query history page</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Phase 5: Advanced Agents</h3>
+                    <span class="badge">3-4 weeks</span>
+                    <ul class="checklist" style="margin-top: 15px;">
+                        <li>RAG Agent for document search</li>
+                        <li>Data Scientist Agent (Python sandbox)</li>
+                        <li>Forecasting with Prophet</li>
+                        <li>Conditional workflow routing</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Phase 6: Production Hardening</h3>
+                    <span class="badge">3-4 weeks</span>
+                    <ul class="checklist" style="margin-top: 15px;">
+                        <li>HashiCorp Vault integration</li>
+                        <li>Rate limiting (100 req/min)</li>
+                        <li>Prometheus + Grafana monitoring</li>
+                        <li>Cost routing (70% savings)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Phase 7: Scale Features (Ongoing)</h3>
+                <div class="deliverable">
+                    <div class="deliverable-title">Team Collaboration</div>
+                    <div class="deliverable-desc">Shared queries, permission system, team workspaces</div>
+                </div>
+                <div class="deliverable">
+                    <div class="deliverable-title">Scheduled Queries</div>
+                    <div class="deliverable-desc">Celery tasks for recurring reports, email delivery</div>
+                </div>
+                <div class="deliverable">
+                    <div class="deliverable-title">Integrations</div>
+                    <div class="deliverable-desc">Slack, email, PowerPoint export, webhook notifications</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEPLOYMENT -->
+        <div class="phase" id="deployment">
+            <div class="phase-header">
+                <h2 class="phase-title">Infrastructure Scaling Timeline</h2>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Deployment Evolution</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Platform</th>
+                            <th>Cost/Month</th>
+                            <th>Capacity</th>
+                            <th>Services</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MVP</strong></td>
+                            <td>Railway</td>
+                            <td>₹700</td>
+                            <td>10 users, 100 queries/day</td>
+                            <td>1 container (512MB), Postgres free tier</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 3-4</strong></td>
+                            <td>Railway (upgraded)</td>
+                            <td>₹2,000</td>
+                            <td>50 users, 500 queries/day</td>
+                            <td>2 containers (1GB each), Postgres paid, Redis</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 5-6</strong></td>
+                            <td>AWS EKS</td>
+                            <td>₹15,000</td>
+                            <td>200 users, 2K queries/day</td>
+                            <td>3 K8s pods (auto-scale to 5), RDS, ElastiCache</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Production</strong></td>
+                            <td>AWS Multi-AZ</td>
+                            <td>₹30,000</td>
+                            <td>1000 users, 10K queries/day</td>
+                            <td>5-10 pods, RDS multi-AZ, Redis cluster, S3, CDN</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">MVP Deployment to Railway</h3>
+                <div class="code-block"># Step 1: Install Railway CLI
+                    npm install -g @railway/cli
+
+                    # Step 2: Login and initialize
+                    railway login
+                    railway init
+                    railway link
+
+                    # Step 3: Add PostgreSQL service (Railway addon)
+
+                    # Step 4: Set environment variables
+                    DATABASE_URL=postgresql://...
+                    OPENAI_API_KEY=sk-...
+                    JWT_SECRET=random_secret_key
+
+                    # Step 5: Deploy backend
+                    cd backend
+                    railway up
+
+                    # Step 6: Deploy frontend to Vercel
+                    cd frontend
+                    vercel --prod</div>
+            </div>
+
+            <div class="success">
+                <strong>Key Principle:</strong> Same Docker image from MVP to production.
+                Only scale configuration changes, never the code!
+            </div>
+        </div>
+
+        <!-- TEAM & BUDGET -->
+        <div class="phase" id="team">
+            <div class="phase-header">
+                <h2 class="phase-title">Team & Budget Requirements</h2>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">Risk Mitigation</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Risk</th>
+                            <th>Probability</th>
+                            <th>Mitigation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LLM generates bad SQL</td>
+                            <td><span class="badge red">High</span></td>
+                            <td>Multi-layer validation, sandbox testing, human-in-loop for MVP</td>
+                        </tr>
+                        <tr>
+                            <td>Customer DB goes down</td>
+                            <td><span class="badge">Medium</span></td>
+                            <td>Circuit breaker, timeout after 30s, friendly error messages</td>
+                        </tr>
+                        <tr>
+                            <td>Scaling issues</td>
+                            <td><span class="badge">Medium</span></td>
+                            <td>Battle-tested stack (Postgres, Redis, K8s)</td>
+                        </tr>
+                        <tr>
+                            <td>No one wants this</td>
+                            <td><span class="badge">Medium</span></td>
+                            <td>MVP in 4 weeks to validate, internal dogfooding</td>
+                        </tr>
+                        <tr>
+                            <td>Security breach</td>
+                            <td><span class="badge green">Low</span></td>
+                            <td>Read-only enforcement, SQL validator, Vault for secrets</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="success" style="margin-top: 30px;">
+                <strong style="font-size: 1.3em; display: block; margin-bottom: 10px;">
+                    🎯 Final Thought
+                </strong>
+                <p style="line-height: 1.8;">
+                    This roadmap is aggressive but realistic. With focused execution:
+                </p>
+                <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Week 4:</strong> Working MVP used by 3 internal users</li>
+                    <li><strong>Month 2:</strong> 10 beta customers testing</li>
+                    <li><strong>Month 3:</strong> First paying customers (₹7.5K MRR)</li>
+                    <li><strong>Month 6:</strong> 50 customers, ₹125K MRR, Series A ready</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 1.1em;">
+                    <strong>The architecture you've chosen is proven at scale by companies like Stripe, Airbnb, and
+                        Notion.</strong>
+                </p>
+                <p style="margin-top: 10px;">
+                    You won't need to rewrite a single line when you go from 10 to 10,000 users.
+                </p>
+                <p style="margin-top: 20px; font-size: 1.2em; color: #D4AF37;">
+                    <strong>Now go build. 🚀</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const phases = document.querySelectorAll('.phase');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.tab;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                phases.forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Accordion toggle
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('span');
+
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('open');
+                arrow.textContent = '▲';
+            }
+        }
+    </script>
 </body>
 
 </html>
