@@ -848,6 +848,54 @@
                 </tbody>
             </table>
 
+            <div class="category-header">
+                <h3>📊 MVP Monitoring (Minimal)</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Plan</th>
+                        <th>Purpose</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AWS CloudWatch</strong></td>
+                        <td>Basic logs + 10 metrics</td>
+                        <td>Essential AWS monitoring, basic logs</td>
+                        <td>₹500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sentry</strong></td>
+                        <td>Developer (5K errors/mo)</td>
+                        <td>Error tracking during testing</td>
+                        <td>₹0 (Free tier)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LangSmith</strong></td>
+                        <td>Developer (included)</td>
+                        <td>Basic AI debugging</td>
+                        <td>₹0 (Free tier)</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>MVP Monitoring Subtotal</strong></td>
+                        <td><strong>₹500/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box" style="margin-top: 20px; margin-bottom: 35px;">
+                <h4>💡 MVP vs Production Monitoring</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    <strong>MVP:</strong> Minimal monitoring with CloudWatch basics + free tiers (₹500/mo) - sufficient
+                    for initial testing and validation.<br><br>
+                    <strong>Production:</strong> Comprehensive 5-tool stack (₹21,410/mo) - required for 99.9% uptime
+                    SLA, incident management, and proactive alerting.
+                </p>
+            </div>
+
             <div class="alert-box">
                 <h4>💡 MVP Cost Optimization Strategies</h4>
                 <p style="color: #CBD5E1; line-height: 1.8;">
@@ -907,12 +955,6 @@
                         <td>₹1,600</td>
                     </tr>
                     <tr>
-                        <td><strong>CloudWatch</strong></td>
-                        <td>50GB logs + 100 metrics + 10 alarms</td>
-                        <td>Comprehensive monitoring & alerting</td>
-                        <td>₹2,200</td>
-                    </tr>
-                    <tr>
                         <td><strong>HashiCorp Vault</strong></td>
                         <td>3× t3.small (HA cluster)</td>
                         <td>Enterprise secret management</td>
@@ -956,7 +998,7 @@
                     </tr>
                     <tr class="total-row">
                         <td colspan="3"><strong>AWS Infrastructure Subtotal</strong></td>
-                        <td><strong>₹63,100/mo</strong></td>
+                        <td><strong>₹60,900/mo</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -1018,6 +1060,72 @@
             </table>
 
             <div class="category-header">
+                <h3>📊 Monitoring & Observability</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Plan/Usage</th>
+                        <th>Purpose</th>
+                        <th>Production Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Datadog APM</strong></td>
+                        <td>Pro plan (5 hosts)</td>
+                        <td>Full-stack monitoring, APM, infrastructure metrics</td>
+                        <td>$15/host × 5 = ₹6,375</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AWS CloudWatch</strong></td>
+                        <td>50GB logs + 100 metrics + 10 alarms</td>
+                        <td>AWS services monitoring, logs, alarms</td>
+                        <td>₹2,200</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LangSmith</strong></td>
+                        <td>Plus plan (50K traces/month)</td>
+                        <td>AI agent monitoring, LLM debugging, trace analysis</td>
+                        <td>$20 = ₹1,700</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sentry</strong></td>
+                        <td>Team plan (100K errors/mo)</td>
+                        <td>Error tracking, performance monitoring, stack traces</td>
+                        <td>$26 = ₹2,210</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PagerDuty</strong></td>
+                        <td>Professional (5 users)</td>
+                        <td>Incident management, on-call alerting, escalation</td>
+                        <td>$21/user × 5 = ₹8,925</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3"><strong>Monitoring & Observability Subtotal</strong></td>
+                        <td><strong>₹21,410/mo</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-box" style="margin-top: 25px; margin-bottom: 35px;">
+                <h4>💡 Monitoring Philosophy: Every Layer, Every Metric</h4>
+                <p style="color: #CBD5E1; line-height: 1.8;">
+                    We monitor <strong>every layer</strong> of the stack—from LLM API latency to database connection
+                    pools to user query success rates.
+                    This comprehensive observability stack ensures 99.9% uptime SLA, enables proactive incident
+                    response, and provides real-time cost optimization insights.<br><br>
+                    <strong>Cost Breakdown:</strong><br>
+                    • Application Performance: ₹10,285/mo (Datadog + Sentry + LangSmith)<br>
+                    • Infrastructure Monitoring: ₹2,200/mo (CloudWatch)<br>
+                    • Incident Management: ₹8,925/mo (PagerDuty)<br><br>
+                    <strong>Total: ₹21,410/month (6% of infrastructure cost)</strong> - Essential investment for
+                    production reliability.
+                </p>
+            </div>
+
+            <div class="category-header">
                 <h3>🔒 Security & Compliance</h3>
             </div>
             <table>
@@ -1075,24 +1183,6 @@
                         <td>$4/user × 5 = ₹1,700</td>
                     </tr>
                     <tr>
-                        <td><strong>Datadog</strong></td>
-                        <td>Pro plan (5 hosts)</td>
-                        <td>APM, infrastructure monitoring</td>
-                        <td>$15/host × 5 = ₹6,375</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sentry</strong></td>
-                        <td>Team plan (100K errors/mo)</td>
-                        <td>Error tracking with full context</td>
-                        <td>$26 = ₹2,210</td>
-                    </tr>
-                    <tr>
-                        <td><strong>PagerDuty</strong></td>
-                        <td>Professional (5 users)</td>
-                        <td>Incident management, on-call</td>
-                        <td>$21/user × 5 = ₹8,925</td>
-                    </tr>
-                    <tr>
                         <td><strong>Terraform Cloud</strong></td>
                         <td>Team plan</td>
                         <td>Infrastructure as code</td>
@@ -1100,7 +1190,7 @@
                     </tr>
                     <tr class="total-row">
                         <td colspan="3"><strong>DevOps Tools Subtotal</strong></td>
-                        <td><strong>₹20,910/mo</strong></td>
+                        <td><strong>₹3,400/mo</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -1109,10 +1199,11 @@
                 <h4>📊 Production Monthly Total: ₹3,48,260 (~₹3.5L/mo)</h4>
                 <p style="color: #CBD5E1; line-height: 1.8;">
                     <strong>Breakdown:</strong><br>
-                    • AWS Infrastructure: ₹63,100 (18%)<br>
+                    • AWS Infrastructure: ₹60,900 (17%)<br>
                     • AI/LLM Services: ₹1,99,250 (57%) - Largest cost driver<br>
                     • Security & Compliance: ₹65,000 (19%)<br>
-                    • DevOps Tools: ₹20,910 (6%)<br><br>
+                    • Monitoring & Observability: ₹21,410 (6%) - Essential for 99.9% uptime<br>
+                    • DevOps Tools: ₹3,400 (1%)<br><br>
 
                     <strong>Annual: ₹41.8 Lakhs</strong> (including one-time SOC 2 audit upfront cost)
                 </p>
