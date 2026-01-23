@@ -425,9 +425,9 @@
                         <td><strong>Production</strong></td>
                         <td>100,000</td>
                         <td>₹1,99,250/mo</td>
-                        <td>₹1,49,010/mo</td>
-                        <td>₹3,48,260/mo</td>
-                        <td><strong>₹3.48</strong></td>
+                        <td>₹1,50,710/mo</td>
+                        <td>₹3,49,960/mo</td>
+                        <td><strong>₹3.50</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -447,12 +447,12 @@
 
                 <div class="cost-card">
                     <h4>Infrastructure Cost per Query</h4>
-                    <div class="cost-amount">₹1.49</div>
+                    <div class="cost-amount">₹1.51</div>
                     <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 10px;">
-                        • AWS compute & storage<br>
-                        • Database operations<br>
-                        • Data transfer<br>
-                        • Security & monitoring
+                        • AWS: ₹0.61 (compute, storage, DB)<br>
+                        • Security: ₹0.65 (compliance, WAF)<br>
+                        • Monitoring: ₹0.21 (Datadog, CloudWatch, etc.)<br>
+                        • DevOps: ₹0.03 (GitHub, Terraform)
                     </p>
                 </div>
 
@@ -471,22 +471,26 @@
             <div class="alert-box" style="margin-top: 30px;">
                 <h4>💡 Key Insights on Unit Economics</h4>
                 <p style="color: #CBD5E1; line-height: 1.8;">
-                    <strong>1. Remarkably Consistent Costs:</strong> Per-query cost stays in ₹2.86-₹3.48 range across
+                    <strong>1. Remarkably Consistent Costs:</strong> Per-query cost stays in ₹2.86-₹3.50 range across
                     all stages despite 20x scale difference (5K → 100K queries)<br><br>
 
                     <strong>2. AI is 57% of Total Cost:</strong> LLM APIs (₹1.99/query) are the largest cost driver.
                     This scales linearly with usage.<br><br>
 
-                    <strong>3. Infrastructure Economies of Scale:</strong> Infrastructure cost per query drops from
-                    ₹1.10 (MVP) to ₹0.63 (Production) due to better resource utilization.<br><br>
+                    <strong>3. Monitoring Essential at Scale:</strong> Production monitoring (₹0.21/query) ensures 99.9%
+                    uptime
+                    and costs just 6% of total - critical investment for reliability.<br><br>
 
-                    <strong>4. Pricing Strategy Implications:</strong><br>
-                    • At ₹3.48 cost per query, we need to price at minimum ₹10-15/query to cover support, sales, and
+                    <strong>4. Infrastructure Economies of Scale:</strong> Infrastructure cost per query drops from
+                    ₹1.10 (MVP) to ₹0.65 (Production) due to better resource utilization.<br><br>
+
+                    <strong>5. Pricing Strategy Implications:</strong><br>
+                    • At ₹3.50 cost per query, we need to price at minimum ₹10-15/query to cover support, sales, and
                     profit margins<br>
-                    • Alternatively, bundle into plans: ₹500/user/month × 100 queries/user = ₹5/query revenue with 44%
+                    • Alternatively, bundle into plans: ₹500/user/month × 100 queries/user = ₹5/query revenue with 43%
                     gross margin<br><br>
 
-                    <strong>5. Optimization Opportunities:</strong><br>
+                    <strong>6. Optimization Opportunities:</strong><br>
                     • Increasing GPT-4o-mini usage from 70% → 85% would save ₹0.60/query<br>
                     • Caching frequent queries (10% hit rate) would save ₹0.20/query<br>
                     • Result: Target cost of ₹2.68/query with optimizations = 55% gross margin at ₹6/query pricing
@@ -498,7 +502,8 @@
         <div class="card">
             <h2>💰 Recommended Pricing: What We Should Charge</h2>
             <p style="color: #CBD5E1; margin-bottom: 25px;">
-                Based on our ₹3.48/query cost structure, here are recommended pricing models to ensure profitability
+                Based on our ₹3.50/query cost structure (including monitoring & observability), here are recommended
+                pricing models to ensure profitability
                 while remaining competitive.
             </p>
 
@@ -518,28 +523,28 @@
                         <td><strong>Pay-Per-Query</strong></td>
                         <td>₹15/query</td>
                         <td>No commitment</td>
-                        <td>77% (₹11.52 profit)</td>
+                        <td>77% (₹11.50 profit)</td>
                         <td>Trials, sporadic users</td>
                     </tr>
                     <tr>
                         <td><strong>Starter Plan</strong></td>
                         <td>₹10/query</td>
                         <td>₹999/mo (100 queries)</td>
-                        <td>65% (₹6.52 profit)</td>
+                        <td>65% (₹6.50 profit)</td>
                         <td>Small teams, 1-5 users</td>
                     </tr>
                     <tr>
                         <td><strong>Professional Plan</strong></td>
                         <td>₹7/query</td>
                         <td>₹3,499/mo (500 queries)</td>
-                        <td>50% (₹3.52 profit)</td>
+                        <td>50% (₹3.50 profit)</td>
                         <td>Growing companies, 10-25 users</td>
                     </tr>
                     <tr>
                         <td><strong>Business Plan</strong></td>
                         <td>₹5/query</td>
                         <td>₹9,999/mo (2,000 queries)</td>
-                        <td>30% (₹1.52 profit)</td>
+                        <td>30% (₹1.50 profit)</td>
                         <td>Mid-market, 50-100 users</td>
                     </tr>
                     <tr>
@@ -628,14 +633,14 @@
 
                     <strong>3. Revenue Projections (Professional Plan):</strong><br>
                     • 100 customers × ₹3,499/mo = ₹3.5L/month revenue<br>
-                    • Cost: 100 customers × 500 queries × ₹3.48 = ₹1.74L/month<br>
-                    • Gross profit: ₹1.76L/month (50% margin)<br>
+                    • Cost: 100 customers × 500 queries × ₹3.50 = ₹1.75L/month<br>
+                    • Gross profit: ₹1.75L/month (50% margin)<br>
                     • After sales/marketing (30%): ₹70K net profit = 20% net margin<br><br>
 
                     <strong>4. Freemium Strategy (Optional):</strong><br>
                     • Free tier: 10 queries/month (₹35 cost, attract 10K users)<br>
                     • Conversion: 2% to Starter plan = 200 paid users × ₹999 = ₹2L revenue<br>
-                    • Cost: 200 × 100 × ₹3.48 = ₹69,600<br>
+                    • Cost: 200 × 100 × ₹3.50 = ₹70,000<br>
                     • Margin: 65% even with free tier
                 </p>
             </div>
@@ -1196,7 +1201,7 @@
             </table>
 
             <div class="alert-box">
-                <h4>📊 Production Monthly Total: ₹3,48,260 (~₹3.5L/mo)</h4>
+                <h4>📊 Production Monthly Total: ₹3,49,960 (~₹3.5L/mo)</h4>
                 <p style="color: #CBD5E1; line-height: 1.8;">
                     <strong>Breakdown:</strong><br>
                     • AWS Infrastructure: ₹60,900 (17%)<br>
@@ -1205,7 +1210,7 @@
                     • Monitoring & Observability: ₹21,410 (6%) - Essential for 99.9% uptime<br>
                     • DevOps Tools: ₹3,400 (1%)<br><br>
 
-                    <strong>Annual: ₹41.8 Lakhs</strong> (including one-time SOC 2 audit upfront cost)
+                    <strong>Annual: ₹42.0 Lakhs</strong> (including one-time SOC 2 audit upfront cost)
                 </p>
             </div>
         </div>
