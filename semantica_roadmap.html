@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semantica.ai - MVP to Production Roadmap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -37,6 +38,21 @@
         .subtitle {
             color: #94A3B8;
             font-size: 1.1em;
+        }
+
+
+
+        .nav-back {
+            text-decoration: none;
+            color: #94A3B8;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-back:hover {
+            color: #D4AF37;
         }
 
         .nav-tabs {
@@ -93,6 +109,15 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .phase-header {
@@ -358,16 +383,25 @@
 
 <body>
     <div class="content"
-        style="padding-top: 20px; padding-bottom: 0; display: flex; justify-content: space-between; align-items: center;">
-        <a href="complete_cost_breakdown.html"
-            style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
-            <span style="margin-right: 5px;">←</span> Cost Breakdown
-        </a>
-        <a href="index.html"
-            style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
-            🏠 Home
-        </a>
-        <div style="width: 100px;"></div>
+        style="padding-top: 20px; padding-bottom: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;">
+        <div style="text-align: left;">
+            <a href="complete_cost_breakdown.html"
+                style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
+                <span style="margin-right: 5px;">←</span> Cost Breakdown
+            </a>
+        </div>
+        <div style="text-align: center;">
+            <a href="index.html"
+                style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
+                🏠 Home
+            </a>
+        </div>
+        <div style="text-align: right;">
+            <a href="business_use_cases.html"
+                style="text-decoration: none; color: #94A3B8; font-size: 0.9rem; transition: color 0.3s; display: inline-flex; align-items: center;">
+                Business Use Cases <span style="margin-left: 5px;">→</span>
+            </a>
+        </div>
     </div>
 
     <div class="header">
